@@ -58,6 +58,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3842039093905701414, guid: 7089775a4fd3ab84d938b89b5e9e47ac,
+        type: 3}
+      propertyPath: data.name
+      value: Tank A Exit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3842039093905701414, guid: 7089775a4fd3ab84d938b89b5e9e47ac,
+        type: 3}
+      propertyPath: data.compatibleElements.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3842039093905701414, guid: 7089775a4fd3ab84d938b89b5e9e47ac,
+        type: 3}
+      propertyPath: data.compatibleElements.Array.data[0]
+      value: Mixer
+      objectReference: {fileID: 0}
+    - target: {fileID: 3842039093905701414, guid: 7089775a4fd3ab84d938b89b5e9e47ac,
+        type: 3}
+      propertyPath: data.compatibleElements.Array.data[1]
+      value: Filter
+      objectReference: {fileID: 0}
     - target: {fileID: 6283562227396407201, guid: 7089775a4fd3ab84d938b89b5e9e47ac,
         type: 3}
       propertyPath: m_Name
@@ -69,8 +89,30 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a350491c546e87c418a18ce991f5c94e,
         type: 2}
+    - target: {fileID: 7792855773845096358, guid: 7089775a4fd3ab84d938b89b5e9e47ac,
+        type: 3}
+      propertyPath: ports.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7792855773845096358, guid: 7089775a4fd3ab84d938b89b5e9e47ac,
+        type: 3}
+      propertyPath: ports.Array.data[0]
+      value: 
+      objectReference: {fileID: 2833054929050602356}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7089775a4fd3ab84d938b89b5e9e47ac, type: 3}
+--- !u!114 &2833054929050602356 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3842039093905701414, guid: 7089775a4fd3ab84d938b89b5e9e47ac,
+    type: 3}
+  m_PrefabInstance: {fileID: 1297215095127060818}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1643c79459eb996458fb35f522dd802d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -14,10 +14,50 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 75c02616b4c077343944e253f23a6d15,
         type: 2}
+    - target: {fileID: 886708720935301599, guid: ae77bc1af6b293540a99f3839c382e2d,
+        type: 3}
+      propertyPath: ports.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 886708720935301599, guid: ae77bc1af6b293540a99f3839c382e2d,
+        type: 3}
+      propertyPath: ports.Array.data[0]
+      value: 
+      objectReference: {fileID: 779700894210987242}
+    - target: {fileID: 886708720935301599, guid: ae77bc1af6b293540a99f3839c382e2d,
+        type: 3}
+      propertyPath: ports.Array.data[1]
+      value: 
+      objectReference: {fileID: 5174552920083292878}
+    - target: {fileID: 886708720935301599, guid: ae77bc1af6b293540a99f3839c382e2d,
+        type: 3}
+      propertyPath: ports.Array.data[2]
+      value: 
+      objectReference: {fileID: 8034994078073065983}
+    - target: {fileID: 2806585648408185405, guid: ae77bc1af6b293540a99f3839c382e2d,
+        type: 3}
+      propertyPath: data.name
+      value: Mixer Input 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2806585648408185405, guid: ae77bc1af6b293540a99f3839c382e2d,
         type: 3}
       propertyPath: data.type
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2806585648408185405, guid: ae77bc1af6b293540a99f3839c382e2d,
+        type: 3}
+      propertyPath: data.compatibleElements.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2806585648408185405, guid: ae77bc1af6b293540a99f3839c382e2d,
+        type: 3}
+      propertyPath: data.compatibleElements.Array.data[0]
+      value: RawMaterialTankA
+      objectReference: {fileID: 0}
+    - target: {fileID: 2806585648408185405, guid: ae77bc1af6b293540a99f3839c382e2d,
+        type: 3}
+      propertyPath: data.compatibleElements.Array.data[1]
+      value: RawMaterialTankB
       objectReference: {fileID: 0}
     - target: {fileID: 3988011576936569304, guid: ae77bc1af6b293540a99f3839c382e2d,
         type: 3}
@@ -26,13 +66,48 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4873734381325111080, guid: ae77bc1af6b293540a99f3839c382e2d,
         type: 3}
+      propertyPath: data.name
+      value: Mixer Output
+      objectReference: {fileID: 0}
+    - target: {fileID: 4873734381325111080, guid: ae77bc1af6b293540a99f3839c382e2d,
+        type: 3}
       propertyPath: data.type
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4873734381325111080, guid: ae77bc1af6b293540a99f3839c382e2d,
+        type: 3}
+      propertyPath: data.compatibleElements.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4873734381325111080, guid: ae77bc1af6b293540a99f3839c382e2d,
+        type: 3}
+      propertyPath: data.compatibleElements.Array.data[0]
+      value: Heater
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777513580384107545, guid: ae77bc1af6b293540a99f3839c382e2d,
+        type: 3}
+      propertyPath: data.name
+      value: Mixer Input 2
       objectReference: {fileID: 0}
     - target: {fileID: 7777513580384107545, guid: ae77bc1af6b293540a99f3839c382e2d,
         type: 3}
       propertyPath: data.type
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777513580384107545, guid: ae77bc1af6b293540a99f3839c382e2d,
+        type: 3}
+      propertyPath: data.compatibleElements.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777513580384107545, guid: ae77bc1af6b293540a99f3839c382e2d,
+        type: 3}
+      propertyPath: data.compatibleElements.Array.data[0]
+      value: RawMaterialTankA
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777513580384107545, guid: ae77bc1af6b293540a99f3839c382e2d,
+        type: 3}
+      propertyPath: data.compatibleElements.Array.data[1]
+      value: RawMaterialTankB
       objectReference: {fileID: 0}
     - target: {fileID: 7844833783986074800, guid: ae77bc1af6b293540a99f3839c382e2d,
         type: 3}
@@ -89,3 +164,39 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae77bc1af6b293540a99f3839c382e2d, type: 3}
+--- !u!114 &779700894210987242 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2806585648408185405, guid: ae77bc1af6b293540a99f3839c382e2d,
+    type: 3}
+  m_PrefabInstance: {fileID: 3179808603940085463}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1643c79459eb996458fb35f522dd802d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5174552920083292878 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7777513580384107545, guid: ae77bc1af6b293540a99f3839c382e2d,
+    type: 3}
+  m_PrefabInstance: {fileID: 3179808603940085463}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1643c79459eb996458fb35f522dd802d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8034994078073065983 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4873734381325111080, guid: ae77bc1af6b293540a99f3839c382e2d,
+    type: 3}
+  m_PrefabInstance: {fileID: 3179808603940085463}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1643c79459eb996458fb35f522dd802d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

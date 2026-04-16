@@ -8,6 +8,12 @@ public class Port : MonoBehaviour
 	[SerializeField]
 	private MeshRenderer meshRenderer;
 
+	public PortData Data => data;
+
+	public bool IsConnected { get; private set; }
+	public Port ConnectedPort { get; private set; }
+	public SystemElement Parent { get; private set; }
+
 	private void Awake()
 	{
 		SetColor();
