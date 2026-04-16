@@ -1,0 +1,1 @@
+# NorbertBlaszczyk_ZadanieRekrutacyjne_AssemblyTable
