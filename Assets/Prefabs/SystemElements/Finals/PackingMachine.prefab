@@ -13,6 +13,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PackingMachine
       objectReference: {fileID: 0}
+    - target: {fileID: 1242272210797277294, guid: 2711b82d645bdf7468294321a22f1411,
+        type: 3}
+      propertyPath: data.type
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3927329573976544313, guid: 2711b82d645bdf7468294321a22f1411,
         type: 3}
       propertyPath: data

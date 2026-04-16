@@ -15,6 +15,11 @@ public class Port : MonoBehaviour
 
 	private void SetColor()
 	{
+		if(data.Type == Type.None) {
+			Debug.LogError("Port type not set properly.", this);
+			return;
+		}
+
 		Color color = data.Type == Type.Output ? Color.red : Color.green;
 
 		var block = new MaterialPropertyBlock();

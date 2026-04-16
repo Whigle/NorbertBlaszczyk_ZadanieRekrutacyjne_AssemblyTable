@@ -30,6 +30,7 @@ public struct PortData
 
 public enum Type
 {
-	Input = 0,
-	Output = 1
+	None = 0,
+	Input = 1,
+	Output = 2
 }

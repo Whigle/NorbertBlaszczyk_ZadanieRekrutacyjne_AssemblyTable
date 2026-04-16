@@ -8,10 +8,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 514018700903305306, guid: 87cd30a18431939409354c3f271dd9d2,
+        type: 3}
+      propertyPath: data.type
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1146015217896948484, guid: 87cd30a18431939409354c3f271dd9d2,
         type: 3}
       propertyPath: m_Name
       value: Heater
+      objectReference: {fileID: 0}
+    - target: {fileID: 3543637013584355168, guid: 87cd30a18431939409354c3f271dd9d2,
+        type: 3}
+      propertyPath: data.type
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3814844930842782467, guid: 87cd30a18431939409354c3f271dd9d2,
         type: 3}

@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SystemElement : MonoBehaviour
 {
-	[SerializeField]
 	private SystemElementSO data;
 
 	[SerializeField]
@@ -14,8 +12,16 @@ public class SystemElement : MonoBehaviour
 	[SerializeField]
 	private List<Port> outputs;
 
-	private void Awake()
+	public void Init(SystemElementSO data)
 	{
+		this.data = data;
+
+		if (data.Category == Category.None)
+		{
+			Debug.LogError("Category not set properly.", this);
+			return;
+		}
+
 		SetColor();
 	}
 

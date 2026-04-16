@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8597bb9b1ee79ed4182ebdc01d83acac, type: 3}
   m_Name: PackingMachineSO
   m_EditorClassIdentifier: 
-  name: Packing Machine
-  category: 2
+  elementName: Packing Machine
+  category: 3
   color: {r: 0.6320754, g: 0.032796368, b: 0.032796368, a: 0}
+  prefab:
+    m_AssetGUID: b819cf810bf0da44a9ebb06ed4cb01ae
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0

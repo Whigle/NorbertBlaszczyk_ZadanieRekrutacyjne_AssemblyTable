@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8597bb9b1ee79ed4182ebdc01d83acac, type: 3}
   m_Name: RawMaterialTankBSO
   m_EditorClassIdentifier: 
-  name: Raw Material Tank B
-  category: 0
+  elementName: Raw Material Tank B
+  category: 1
   color: {r: 0.14509802, g: 0.2937547, b: 0.8392157, a: 0}
+  prefab:
+    m_AssetGUID: f156341f83ba09644aa06c35f05eeb50
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0

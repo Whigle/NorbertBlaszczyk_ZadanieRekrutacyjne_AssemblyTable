@@ -14,10 +14,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 75c02616b4c077343944e253f23a6d15,
         type: 2}
+    - target: {fileID: 2806585648408185405, guid: ae77bc1af6b293540a99f3839c382e2d,
+        type: 3}
+      propertyPath: data.type
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3988011576936569304, guid: ae77bc1af6b293540a99f3839c382e2d,
         type: 3}
       propertyPath: m_Name
       value: Mixer
+      objectReference: {fileID: 0}
+    - target: {fileID: 4873734381325111080, guid: ae77bc1af6b293540a99f3839c382e2d,
+        type: 3}
+      propertyPath: data.type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777513580384107545, guid: ae77bc1af6b293540a99f3839c382e2d,
+        type: 3}
+      propertyPath: data.type
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7844833783986074800, guid: ae77bc1af6b293540a99f3839c382e2d,
         type: 3}

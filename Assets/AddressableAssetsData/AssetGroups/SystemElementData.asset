@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: SystemElementData
+  m_EditorClassIdentifier: 
+  m_GroupName: SystemElementData
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 16cc60992313cf247b9f00712dd4ee98
+  m_SerializeEntries:
+  - m_GUID: 03e5986c166ddf3419517fd1de3fb15e
+    m_Address: Assets/Data/Converters/HeaterSO.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SEData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2b8a0b2f14abf3249bf1d4860f8a837e
+    m_Address: Assets/Data/Sources/RawMaterialTankBSO.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SEData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 58ac851aaab12e8439a940e683f597d9
+    m_Address: Assets/Data/Finals/PackingMachineSO.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SEData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 75c02616b4c077343944e253f23a6d15
+    m_Address: Assets/Data/Converters/MixerSO.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SEData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a350491c546e87c418a18ce991f5c94e
+    m_Address: Assets/Data/Sources/RawMaterialTankASO.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SEData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b69d574bf150d7042bba3a46956c9a3e
+    m_Address: Assets/Data/Converters/InitialFilterSO.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SEData
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: e4228a448a565de4987cae1d50da71a1, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 31e1ef02e3ba77042a184ec0a28c7783, type: 2}
+    - {fileID: 11400000, guid: 2959e5f1897128245a7a637ba3da92b4, type: 2}

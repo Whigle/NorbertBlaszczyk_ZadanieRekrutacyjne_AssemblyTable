@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8597bb9b1ee79ed4182ebdc01d83acac, type: 3}
   m_Name: MixerSO
   m_EditorClassIdentifier: 
-  name: Mixer
-  category: 1
+  elementName: Mixer
+  category: 2
   color: {r: 0.19063722, g: 0.7924528, b: 0.44532624, a: 0}
+  prefab:
+    m_AssetGUID: 98604a3e98ddd9e4b955e41e133d34e4
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0

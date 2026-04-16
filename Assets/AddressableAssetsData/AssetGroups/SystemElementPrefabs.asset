@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: SystemElementPrefabs
+  m_EditorClassIdentifier: 
+  m_GroupName: SystemElementPrefabs
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 1436b672ec829d948898e62a70f55b13
+  m_SerializeEntries:
+  - m_GUID: 1c865b224c7bf394daf674badaf0d0d3
+    m_Address: Assets/Prefabs/SystemElements/Converters/InitialFilter.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1c9b1d0ce8913f046be053749b6b8a61
+    m_Address: Assets/Prefabs/SystemElements/SystemElementBase.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2711b82d645bdf7468294321a22f1411
+    m_Address: Assets/Prefabs/SystemElements/SMB_In1_Out0.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 611e2e0f0ad59fc4eb551a41eb21253a
+    m_Address: Assets/Prefabs/Ports/Port.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6e11441b4d0266642b528d85243a0ddc
+    m_Address: Assets/Prefabs/SystemElements/Converters/Heater.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7089775a4fd3ab84d938b89b5e9e47ac
+    m_Address: Assets/Prefabs/SystemElements/SMB_In0_Out1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 87cd30a18431939409354c3f271dd9d2
+    m_Address: Assets/Prefabs/SystemElements/SMB_In1_Out1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 98604a3e98ddd9e4b955e41e133d34e4
+    m_Address: Assets/Prefabs/SystemElements/Converters/Mixer.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ae77bc1af6b293540a99f3839c382e2d
+    m_Address: Assets/Prefabs/SystemElements/SMB_In2_Out1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b819cf810bf0da44a9ebb06ed4cb01ae
+    m_Address: Assets/Prefabs/SystemElements/Finals/PackingMachine.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c02b27d52f09256448bfa92729853d04
+    m_Address: Assets/Prefabs/SystemElements/Sources/RawMaterialTankA.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f156341f83ba09644aa06c35f05eeb50
+    m_Address: Assets/Prefabs/SystemElements/Sources/RawMaterialTankB.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: e4228a448a565de4987cae1d50da71a1, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 6d18477bd39b4c04c810a3f1e927ca7b, type: 2}
+    - {fileID: 11400000, guid: 24198993d8f0f964a85e42fbf26e7151, type: 2}
