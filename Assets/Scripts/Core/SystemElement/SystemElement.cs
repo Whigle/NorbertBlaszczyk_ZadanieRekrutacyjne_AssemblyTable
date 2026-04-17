@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class SystemElement : MonoBehaviour
 {
@@ -25,6 +24,8 @@ public class SystemElement : MonoBehaviour
 
 	public void Init(int Id, SystemElementSO data)
 	{
+		SetPortsIds();
+
 		this.Id = Id;
 		Inputs = ports.Where(port => port.Data.Type == Type.Input).ToList();
 		Outputs = ports.Where(port => port.Data.Type == Type.Output).ToList();
@@ -40,6 +41,15 @@ public class SystemElement : MonoBehaviour
 		SetColor();
 	}
 
+	private void SetPortsIds()
+	{
+		int portId = 0;
+		foreach (var port in ports)
+		{
+			port.SetId(portId++);
+		}
+	}
+
 	private void SetColor()
 	{
 		Color color = data.Color;
@@ -50,7 +60,8 @@ public class SystemElement : MonoBehaviour
 		meshRenderer.SetPropertyBlock(block);
 	}
 
-	public void Delete() {
+	public void Delete()
+	{
 		foreach (var port in ports)
 		{
 			port.Disconnect();

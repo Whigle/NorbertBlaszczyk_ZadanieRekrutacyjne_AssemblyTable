@@ -18,23 +18,26 @@ public class LibraryUI : MonoBehaviour
 
 	private List<SystemElementBtn> buttons = new List<SystemElementBtn>();
 
-	private void Awake()
+	private void Start()
 	{
 		SetCategoryDropdown();
-		LoadSystemElementData();
+
+		SystemElementSpawner.Instance.SpawnableElementsPrepared += OnSpawnableElementsPrepared;
 	}
 
-	private void LoadSystemElementData()
+	private void OnDestroy()
 	{
-		Addressables.LoadAssetsAsync<SystemElementSO>(systemElementDataLabel, addressable =>
+		SystemElementSpawner.Instance.SpawnableElementsPrepared -= OnSpawnableElementsPrepared;
+	}
+
+	private void OnSpawnableElementsPrepared()
+	{
+		foreach (var data in SystemElementSpawner.Instance.SpawnableElements)
 		{
-			if (addressable != null)
-			{
-				var button = Instantiate(systemElementBtnPrefab, scrollViewContent);
-				button.Init(addressable);
-				buttons.Add(button);
-			}
-		}).Completed += OnLoadDone;
+			var button = Instantiate(systemElementBtnPrefab, scrollViewContent);
+			button.Init(data.Id, data.Name, data.Category);
+			buttons.Add(button);
+		}
 	}
 
 	private void OnLoadDone(AsyncOperationHandle<IList<SystemElementSO>> handle)

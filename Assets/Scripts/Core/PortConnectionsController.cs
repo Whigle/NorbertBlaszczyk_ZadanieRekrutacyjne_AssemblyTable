@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class PortConnectionsController : MonoBehaviour, IRaycastListener
+public class PortConnectionsController : SingletonMB<PortConnectionsController>, IRaycastListener
 {
 	//TODO: Better control over system state, if currently creating connections or not.
 
@@ -27,6 +28,7 @@ public class PortConnectionsController : MonoBehaviour, IRaycastListener
 	private Dictionary<int, ConnectionData> connections = new Dictionary<int, ConnectionData>();
 
 	private int idCounter = 0;
+	public IReadOnlyList<ConnectionData> Connections => connections.Values.ToList();
 
 	private void Start()
 	{

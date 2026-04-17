@@ -17,6 +17,7 @@ public class Port : MonoBehaviour
 	public bool IsConnected => ConnectedPort != null;
 	public Port ConnectedPort { get; private set; }
 	public SystemElement Parent { get; private set; }
+	public int Id { get; private set; }
 
 	private void Awake()
 	{
@@ -73,5 +74,10 @@ public class Port : MonoBehaviour
 	internal bool IsConnectionValid()
 	{
 		return data.CompatibleElements.Contains(ConnectedPort.Parent.Data);
+	}
+
+	internal void SetId(int id)
+	{
+		Id = id;
 	}
 }

@@ -9,26 +9,30 @@ public class SystemElementBtn : MonoBehaviour
 	[SerializeField]
 	private TMP_Text CategoryText;
 
-	private SystemElementSO data;
+	private int dataId;
+	private string elementName;
+	private Category category;
 
-	public void Init(SystemElementSO data)
+	public void Init(int dataId, string name, Category category)
 	{
-		this.data = data;
+		this.dataId = dataId;
+		this.elementName = name;
+		this.category = category;
 		SetupButton();
 	}
 
 	internal void SetVibility(Category filterCategory)
 	{
-		gameObject.SetActive(data.Category == filterCategory || filterCategory == Category.None ? true : false); 
+		gameObject.SetActive(category == filterCategory || filterCategory == Category.None ? true : false); 
 	}
 
 	private void SetupButton()
 	{
-		NameText.text = data.Name;
-		CategoryText.text = data.Category.ToString();
+		NameText.text = elementName;
+		CategoryText.text = category.ToString();
 	}
 
 	public void OnClick() {
-		SystemElementSpawner.Instance.SpawnSystemElement(data);
+		SystemElementSpawner.Instance.SpawnSystemElement(dataId);
 	}
 }

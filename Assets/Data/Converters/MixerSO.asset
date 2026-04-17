@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8597bb9b1ee79ed4182ebdc01d83acac, type: 3}
   m_Name: MixerSO
   m_EditorClassIdentifier: 
+  id: 3
   elementName: Mixer
   category: 2
   color: {r: 0.19063722, g: 0.7924528, b: 0.44532624, a: 0}

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8597bb9b1ee79ed4182ebdc01d83acac, type: 3}
   m_Name: HeaterSO
   m_EditorClassIdentifier: 
+  id: 4
   elementName: Heater
   category: 2
   color: {r: 0.16192056, g: 0.5283019, b: 0.10715558, a: 0}
