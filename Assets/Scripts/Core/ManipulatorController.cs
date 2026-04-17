@@ -14,7 +14,7 @@ public class ManipulatorController : MonoBehaviour, IRaycastListener
 
 	private SEManipulator manipulatedObject;
 
-	private void Awake()
+	private void Start()
 	{
 		Raycaster.Instance.Register(new RegisterData(SYSTEM_ELEMENT_TAG, MouseEvent.LMBPressed, this));
 		Raycaster.Instance.Register(new RegisterData(SYSTEM_ELEMENT_TAG, MouseEvent.LMBReleased, this));

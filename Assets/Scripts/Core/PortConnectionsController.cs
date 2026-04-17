@@ -28,7 +28,7 @@ public class PortConnectionsController : MonoBehaviour, IRaycastListener
 
 	private int idCounter = 0;
 
-	private void Awake()
+	private void Start()
 	{
 		Raycaster.Instance.Register(new RegisterData(PORT_TAG, MouseEvent.LMBPressed, this));
 		Raycaster.Instance.Register(new RegisterData("", MouseEvent.RMBPressed, this));

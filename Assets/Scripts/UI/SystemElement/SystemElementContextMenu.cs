@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SystemElementContextMenu : MonoBehaviour
 {
+	//TODO: Fix connection between ContextViewController and SystemElementContextMenu
 	[SerializeField]
 	private ContextViewController controller;
 	[SerializeField]

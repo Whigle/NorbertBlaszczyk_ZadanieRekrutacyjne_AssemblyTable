@@ -13,7 +13,7 @@ public class ContextViewController : MonoBehaviour, IRaycastListener
 
 	private SystemElement manipulatedObject;
 
-	private void Awake()
+	private void Start()
 	{
 		Raycaster.Instance.Register(new RegisterData(SYSTEM_ELEMENT_TAG, MouseEvent.RMBPressed, this));
 		Raycaster.Instance.Register(new RegisterData(SYSTEM_ELEMENT_TAG, MouseEvent.RMBReleased, this));
