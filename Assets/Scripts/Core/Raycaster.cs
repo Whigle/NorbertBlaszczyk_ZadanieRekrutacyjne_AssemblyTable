@@ -50,7 +50,6 @@ public class Raycaster : SingletonMB<Raycaster>
 			{
 				if (registerDatas[i].ShouldCall(tag, mouseEvent))
 				{
-					Debug.Log($"Called: {registerDatas[i].Tag} {registerDatas[i].Event} {registerDatas[i].Listener}");
 					bool useRaycast = registerDatas[i].TryCall(hit);
 					if (useRaycast) return;
 				}

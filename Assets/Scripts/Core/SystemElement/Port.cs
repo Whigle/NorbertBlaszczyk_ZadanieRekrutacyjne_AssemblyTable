@@ -1,83 +1,88 @@
+using AsemblyTable.Core.Ports;
+using AsemblyTable.Core.SystemElements;
 using System;
 using System.Linq;
 using UnityEngine;
 
-public class Port : MonoBehaviour
+namespace AsemblyTable.Core.Ports
 {
-	public event Action<Port> Disconnected;
-
-	[SerializeField]
-	private PortData data;
-
-	[SerializeField]
-	private MeshRenderer meshRenderer;
-
-	public PortData Data => data;
-
-	public bool IsConnected => ConnectedPort != null;
-	public Port ConnectedPort { get; private set; }
-	public SystemElement Parent { get; private set; }
-	public int Id { get; private set; }
-
-	private void Awake()
+	public class Port : MonoBehaviour
 	{
-		Parent = GetComponentInParent<SystemElement>();
+		public event Action<Port> Disconnected;
 
-		SetColor();
-	}
+		[SerializeField]
+		private PortData data;
 
-	private void SetColor()
-	{
-		if (data.Type == Type.None)
+		[SerializeField]
+		private MeshRenderer meshRenderer;
+
+		public PortData Data => data;
+
+		public bool IsConnected => ConnectedPort != null;
+		public Port ConnectedPort { get; private set; }
+		public SystemElement Parent { get; private set; }
+		public int Id { get; private set; }
+
+		private void Awake()
 		{
-			Debug.LogError("Port type not set properly.", this);
-			return;
+			Parent = GetComponentInParent<SystemElement>();
+
+			SetColor();
 		}
 
-		Color color = data.Type == Type.Output ? Color.red : Color.green;
-
-		var block = new MaterialPropertyBlock();
-		meshRenderer.GetPropertyBlock(block);
-		block.SetColor("_BaseColor", color);
-		meshRenderer.SetPropertyBlock(block);
-	}
-
-	public void Connect(Port port) 
-	{
-		if (ConnectedPort != null)
+		private void SetColor()
 		{
-			ConnectedPort.Disconnect();
+			if (data.Type == Type.None)
+			{
+				Debug.LogError("Port type not set properly.", this);
+				return;
+			}
+
+			Color color = data.Type == Type.Output ? Color.red : Color.green;
+
+			var block = new MaterialPropertyBlock();
+			meshRenderer.GetPropertyBlock(block);
+			block.SetColor("_BaseColor", color);
+			meshRenderer.SetPropertyBlock(block);
 		}
 
-		ConnectedPort = port;
-	}
-
-	public void Disconnect() 
-	{
-		ConnectedPort = null;
-		Disconnected?.Invoke(this);
-	}
-
-	public string GetConnectionDetails()
-	{
-		if (ConnectedPort == null)
+		public void Connect(Port port)
 		{
-			return "Port is not connected";
+			if (ConnectedPort != null)
+			{
+				ConnectedPort.Disconnect();
+			}
+
+			ConnectedPort = port;
 		}
-		else
+
+		public void Disconnect()
 		{
-			return $"Port connected to: {ConnectedPort.Data.Name}";
+			ConnectedPort = null;
+			Disconnected?.Invoke(this);
 		}
-	}
 
-	//TODO: Check by compatible CompatibleCategories
-	internal bool IsConnectionValid()
-	{
-		return data.CompatibleElements.Contains(ConnectedPort.Parent.Data);
-	}
+		public string GetConnectionDetails()
+		{
+			if (ConnectedPort == null)
+			{
+				return "Port is not connected";
+			}
+			else
+			{
+				return $"Port connected to: {ConnectedPort.Data.Name}";
+			}
+		}
 
-	internal void SetId(int id)
-	{
-		Id = id;
+		//TODO: Check by compatible CompatibleCategories
+		internal bool IsConnectionValid()
+		{
+			return data.CompatibleElements.Contains(ConnectedPort.Parent.Data);
+		}
+
+		internal void SetId(int id)
+		{
+			Id = id;
+		}
 	}
 }

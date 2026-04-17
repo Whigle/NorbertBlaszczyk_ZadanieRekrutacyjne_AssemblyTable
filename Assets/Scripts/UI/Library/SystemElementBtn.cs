@@ -1,38 +1,41 @@
-using System;
 using TMPro;
 using UnityEngine;
 
-public class SystemElementBtn : MonoBehaviour
+namespace AsemblyTable.Core.SystemElements.UI
 {
-	[SerializeField]
-	private TMP_Text NameText;
-	[SerializeField]
-	private TMP_Text CategoryText;
-
-	private int dataId;
-	private string elementName;
-	private Category category;
-
-	public void Init(int dataId, string name, Category category)
+	public class SystemElementBtn : MonoBehaviour
 	{
-		this.dataId = dataId;
-		this.elementName = name;
-		this.category = category;
-		SetupButton();
-	}
+		[SerializeField]
+		private TMP_Text NameText;
+		[SerializeField]
+		private TMP_Text CategoryText;
 
-	internal void SetVibility(Category filterCategory)
-	{
-		gameObject.SetActive(category == filterCategory || filterCategory == Category.None ? true : false); 
-	}
+		private int dataId;
+		private string elementName;
+		private Category category;
 
-	private void SetupButton()
-	{
-		NameText.text = elementName;
-		CategoryText.text = category.ToString();
-	}
+		public void Init(int dataId, string name, Category category)
+		{
+			this.dataId = dataId;
+			this.elementName = name;
+			this.category = category;
+			SetupButton();
+		}
 
-	public void OnClick() {
-		SystemElementSpawner.Instance.SpawnSystemElement(dataId);
+		internal void SetVibility(Category filterCategory)
+		{
+			gameObject.SetActive(category == filterCategory || filterCategory == Category.None ? true : false);
+		}
+
+		private void SetupButton()
+		{
+			NameText.text = elementName;
+			CategoryText.text = category.ToString();
+		}
+
+		public void OnClick()
+		{
+			_ = SystemElementSpawner.Instance.SpawnSystemElement(dataId);
+		}
 	}
 }

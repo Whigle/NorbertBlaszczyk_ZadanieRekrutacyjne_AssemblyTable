@@ -1,192 +1,252 @@
+using AsemblyTable.Core.Serialization;
+using AsemblyTable.Core.SystemElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
-public class PortConnectionsController : SingletonMB<PortConnectionsController>, IRaycastListener
+namespace AsemblyTable.Core.Ports
 {
-	//TODO: Better control over system state, if currently creating connections or not.
-
-	private const string PORT_TAG = "Port";
-
-	[SerializeField]
-	private InputManager inputManager;
-
-	[SerializeField]
-	private LayerMask tableLayerMask;
-	[SerializeField]
-	private LayerMask portLayerMask;
-
-	[SerializeField]
-	private LineRenderer lineRenderer;
-
-	[SerializeField]
-	private PortsConnectionVisuals prefab;
-
-	private Port manipulatedObject;
-
-	private Dictionary<int, ConnectionData> connections = new Dictionary<int, ConnectionData>();
-
-	private int idCounter = 0;
-	public IReadOnlyList<ConnectionData> Connections => connections.Values.ToList();
-
-	private void Start()
+	public class PortConnectionsController : SingletonMB<PortConnectionsController>, IRaycastListener, ISerializable<ConnectionsSaveData>
 	{
-		Raycaster.Instance.Register(new RegisterData(PORT_TAG, MouseEvent.LMBPressed, this));
-		Raycaster.Instance.Register(new RegisterData("", MouseEvent.RMBPressed, this));
-	}
+		//TODO: Better control over system state, if currently creating connections or not.
 
-	private void Update()
-	{
-		if (manipulatedObject != null)
+		private const string PORT_TAG = "Port";
+
+		[SerializeField]
+		private InputManager inputManager;
+
+		[SerializeField]
+		private LayerMask tableLayerMask;
+		[SerializeField]
+		private LayerMask portLayerMask;
+
+		[SerializeField]
+		private LineRenderer lineRenderer;
+
+		[SerializeField]
+		private PortsConnectionVisuals prefab;
+
+		private Port manipulatedObject;
+
+		private Dictionary<int, ConnectionData> connections = new Dictionary<int, ConnectionData>();
+
+		private int idCounter = 0;
+		public IReadOnlyList<ConnectionData> Connections => connections.Values.ToList();
+
+		private void Start()
 		{
-			if (Raycaster.Instance.RaycastFromMouseScreenPosition(tableLayerMask | portLayerMask, out RaycastHit hit))
+			Raycaster.Instance.Register(new RegisterData(PORT_TAG, MouseEvent.LMBPressed, this));
+			Raycaster.Instance.Register(new RegisterData("", MouseEvent.RMBPressed, this));
+		}
+
+		private void Update()
+		{
+			if (manipulatedObject != null)
 			{
-				lineRenderer.SetPosition(1, hit.point);
+				if (Raycaster.Instance.RaycastFromMouseScreenPosition(tableLayerMask | portLayerMask, out RaycastHit hit))
+				{
+					lineRenderer.SetPosition(1, hit.point);
+				}
 			}
 		}
-	}
 
-	private void OnLMBPressed(RaycastHit hit)
-	{
-		if (manipulatedObject == null)
+		public void CreateConnection(Port output, Port input)
 		{
-			StartConnectionCreationProcess(hit);
-		}
-		else
-		{
-			TryCreatingConnection(hit);
-		}
-	}
 
-	private bool OnRMBPressed(RaycastHit hit)
-	{
-		if (manipulatedObject != null)
-		{
-			manipulatedObject = null;
+			var visual = SetupConnectionVisual(output, input);
+
 			ResetLineRenderer();
 
-			return true;
-		}
-		else
-		{
-			if (hit.collider.tag == PORT_TAG)
-			{
-				var port = hit.collider.GetComponent<Port>();
+			var data = new ConnectionData(idCounter, output, input, visual);
+			connections.Add(idCounter++, data);
 
-				if (port.IsConnected)
-				{
-					port.Disconnect();
-				}
+			data.Disconnected += OnDisconnected;
+		}
+
+		private void OnLMBPressed(RaycastHit hit)
+		{
+			if (manipulatedObject == null)
+			{
+				StartConnectionCreationProcess(hit);
+			}
+			else
+			{
+				TryCreatingConnection(hit);
+			}
+		}
+
+		private bool OnRMBPressed(RaycastHit hit)
+		{
+			if (manipulatedObject != null)
+			{
+				manipulatedObject = null;
+				ResetLineRenderer();
 
 				return true;
 			}
+			else
+			{
+				if (hit.collider.tag == PORT_TAG)
+				{
+					var port = hit.collider.GetComponent<Port>();
+
+					if (port.IsConnected)
+					{
+						port.Disconnect();
+					}
+
+					return true;
+				}
+			}
+
+			return false;
 		}
 
-		return false;
-	}
-
-	private void StartConnectionCreationProcess(RaycastHit hit)
-	{
-		manipulatedObject = hit.collider.gameObject.GetComponent<Port>();
-
-		if (manipulatedObject.Data.Type == Type.Input)
+		private void StartConnectionCreationProcess(RaycastHit hit)
 		{
+			manipulatedObject = hit.collider.gameObject.GetComponent<Port>();
+
+			if (manipulatedObject.Data.Type == Type.Input)
+			{
+				manipulatedObject = null;
+				return;
+			}
+
+			lineRenderer.enabled = true;
+			lineRenderer.SetPosition(0, manipulatedObject.transform.position);
+		}
+
+		private void TryCreatingConnection(RaycastHit hit)
+		{
+			Port otherPort = hit.collider.GetComponent<Port>();
+
+			if (otherPort.Data.Type == Type.Output)
+			{
+				return;
+			}
+
+			CreateConnection(manipulatedObject, otherPort);
+
 			manipulatedObject = null;
-			return;
 		}
 
-		lineRenderer.enabled = true;
-		lineRenderer.SetPosition(0, manipulatedObject.transform.position);
-	}
-
-	private void TryCreatingConnection(RaycastHit hit)
-	{
-		Port otherPort = hit.collider.GetComponent<Port>();
-
-		if (otherPort.Data.Type == Type.Output)
+		private void OnDisconnected(int id)
 		{
-			return;
+			connections.Remove(id);
 		}
 
-		var visual = SetupConnectionVisual(manipulatedObject, otherPort);
-
-		ResetLineRenderer();
-
-		var data = new ConnectionData(idCounter, manipulatedObject, otherPort, visual);
-		connections.Add(idCounter++, data);
-
-		data.Disconnected += OnDisconnected;
-
-		manipulatedObject = null;
-	}
-
-	private void OnDisconnected(int id)
-	{
-		connections.Remove(id);
-	}
-
-	private void ResetLineRenderer()
-	{
-		lineRenderer.enabled = false;
-		lineRenderer.SetPosition(0, Vector3.zero);
-		lineRenderer.SetPosition(1, Vector3.zero);
-	}
-
-	private PortsConnectionVisuals SetupConnectionVisual(Port output, Port input)
-	{
-		output.Connect(input);
-		input.Connect(output);
-
-		var visual = Instantiate(prefab, this.transform);
-		visual.Init(output, input);
-
-		return visual;
-	}
-
-	public bool ProcessRaycast(MouseEvent mouseEvent, RaycastHit hit)
-	{
-		if (mouseEvent == MouseEvent.LMBPressed)
+		private void ResetLineRenderer()
 		{
-			OnLMBPressed(hit);
-			return true;
-		}
-		else if (mouseEvent == MouseEvent.RMBPressed)
-		{
-			return OnRMBPressed(hit);
+			lineRenderer.enabled = false;
+			lineRenderer.SetPosition(0, Vector3.zero);
+			lineRenderer.SetPosition(1, Vector3.zero);
 		}
 
-		return false;
+		private PortsConnectionVisuals SetupConnectionVisual(Port output, Port input)
+		{
+			output.Connect(input);
+			input.Connect(output);
+
+			var visual = Instantiate(prefab, this.transform);
+			visual.Init(output, input);
+
+			return visual;
+		}
+
+		public bool ProcessRaycast(MouseEvent mouseEvent, RaycastHit hit)
+		{
+			if (mouseEvent == MouseEvent.LMBPressed)
+			{
+				OnLMBPressed(hit);
+				return true;
+			}
+			else if (mouseEvent == MouseEvent.RMBPressed)
+			{
+				return OnRMBPressed(hit);
+			}
+
+			return false;
+		}
+
+		public ConnectionsSaveData Serialize()
+		{
+			ConnectionsSaveData saveData = new ConnectionsSaveData() { Connections = new List<ConnectionSaveData>() };
+
+			foreach (var connection in PortConnectionsController.Instance.Connections)
+			{
+				saveData.Connections.Add(new ConnectionSaveData()
+				{
+					OutputElementId = connection.OutputPort.Parent.Id,
+					OutputPortId = connection.OutputPort.Id,
+					InputElementId = connection.InputPort.Parent.Id,
+					InputPortId = connection.InputPort.Id,
+				});
+			}
+
+			return saveData;
+		}
+
+		public async Task Deserialize(ConnectionsSaveData saveData)
+		{
+			foreach (var connection in saveData.Connections)
+			{
+				var outputPort = SystemElementSpawner.Instance.SpawnedElements[connection.OutputElementId].Ports[connection.OutputPortId];
+				var inputPort = SystemElementSpawner.Instance.SpawnedElements[connection.InputElementId].Ports[connection.InputPortId];
+				CreateConnection(outputPort, inputPort);
+			}
+
+			await Task.CompletedTask;
+		}
+	}
+
+	public class ConnectionData
+	{
+		public event Action<int> Disconnected;
+
+		public int Id;
+		public Port OutputPort;
+		public Port InputPort;
+		public PortsConnectionVisuals Visuals;
+
+		public ConnectionData(int Id, Port outputPort, Port inputPort, PortsConnectionVisuals visuals)
+		{
+			OutputPort = outputPort;
+			InputPort = inputPort;
+			Visuals = visuals;
+
+			OutputPort.Disconnected += OnDisconnected;
+			InputPort.Disconnected += OnDisconnected;
+		}
+
+		private void OnDisconnected(Port port)
+		{
+			OutputPort.Disconnected -= OnDisconnected;
+			InputPort.Disconnected -= OnDisconnected;
+
+			(port == OutputPort ? InputPort : OutputPort).Disconnect();
+
+			Visuals.Disconnect();
+			Disconnected?.Invoke(Id);
+		}
+	}
+
+	[Serializable]
+	public struct ConnectionsSaveData
+	{
+		public List<ConnectionSaveData> Connections;
+	}
+
+
+	[Serializable]
+	public struct ConnectionSaveData
+	{
+		public int OutputElementId;
+		public int OutputPortId;
+		public int InputElementId;
+		public int InputPortId;
 	}
 }
 
-public class ConnectionData
-{
-	public event Action<int> Disconnected;
 
-	public int Id;
-	public Port OutputPort;
-	public Port InputPort;
-	public PortsConnectionVisuals Visuals;
-
-	public ConnectionData(int Id, Port outputPort, Port inputPort, PortsConnectionVisuals visuals)
-	{
-		OutputPort = outputPort;
-		InputPort = inputPort;
-		Visuals = visuals;
-
-		OutputPort.Disconnected += OnDisconnected;
-		InputPort.Disconnected += OnDisconnected;
-	}
-
-	private void OnDisconnected(Port port)
-	{
-		OutputPort.Disconnected -= OnDisconnected;
-		InputPort.Disconnected -= OnDisconnected;
-
-		(port == OutputPort ? InputPort : OutputPort).Disconnect();
-
-		Visuals.Disconnect();
-		Disconnected?.Invoke(Id);
-	}
-}

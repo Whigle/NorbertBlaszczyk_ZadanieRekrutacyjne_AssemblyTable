@@ -1,81 +1,70 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class LibraryUI : MonoBehaviour
-{
-	[SerializeField]
-	private string systemElementDataLabel = "SEData";
-	[SerializeField]
-	private SystemElementBtn systemElementBtnPrefab;
-
-	[SerializeField]
-	private TMP_Dropdown categoryDropdown;
-	[SerializeField]
-	private Transform scrollViewContent;
-
-	private List<SystemElementBtn> buttons = new List<SystemElementBtn>();
-
-	private void Start()
+namespace AsemblyTable.Core.SystemElements.UI {
+	public class LibraryUI : MonoBehaviour
 	{
-		SetCategoryDropdown();
+		[SerializeField]
+		private SystemElementBtn systemElementBtnPrefab;
 
-		SystemElementSpawner.Instance.SpawnableElementsPrepared += OnSpawnableElementsPrepared;
-	}
+		[SerializeField]
+		private TMP_Dropdown categoryDropdown;
+		[SerializeField]
+		private Transform scrollViewContent;
 
-	private void OnDestroy()
-	{
-		SystemElementSpawner.Instance.SpawnableElementsPrepared -= OnSpawnableElementsPrepared;
-	}
+		private List<SystemElementBtn> buttons = new List<SystemElementBtn>();
 
-	private void OnSpawnableElementsPrepared()
-	{
-		foreach (var data in SystemElementSpawner.Instance.SpawnableElements)
+		private void Start()
 		{
-			var button = Instantiate(systemElementBtnPrefab, scrollViewContent);
-			button.Init(data.Id, data.Name, data.Category);
-			buttons.Add(button);
-		}
-	}
+			SetCategoryDropdown();
 
-	private void OnLoadDone(AsyncOperationHandle<IList<SystemElementSO>> handle)
-	{
-		if (handle.Status != AsyncOperationStatus.Succeeded)
-			Debug.LogError("Failed to load assets");
-	}
-
-	private void SetCategoryDropdown()
-	{
-		string[] CategoriesNames = System.Enum.GetNames(typeof(Category));
-
-		categoryDropdown.ClearOptions();
-
-		var options = new List<TMP_Dropdown.OptionData>();
-
-		for (int i = 0; i < CategoriesNames.Length; i++)
-		{
-			options.Add(new TMP_Dropdown.OptionData(CategoriesNames[i]));
+			SystemElementSpawner.Instance.SpawnableElementsPrepared += OnSpawnableElementsPrepared;
 		}
 
-		categoryDropdown.AddOptions(options);
-	}
-
-	public void OnValueChanged(int selectedOptionIndex)
-	{
-		var selectedOption = categoryDropdown.options[selectedOptionIndex];
-
-		Category selectedCategory = (Category)System.Enum.Parse(typeof(Category), selectedOption.text);
-
-		FilterElements(selectedCategory);
-	}
-
-	private void FilterElements(Category selectedCategory)
-	{
-		foreach (var button in buttons)
+		private void OnSpawnableElementsPrepared()
 		{
-			button.SetVibility(selectedCategory);
+			SystemElementSpawner.Instance.SpawnableElementsPrepared -= OnSpawnableElementsPrepared;
+
+			foreach (var data in SystemElementSpawner.Instance.SpawnableElements)
+			{
+				var button = Instantiate(systemElementBtnPrefab, scrollViewContent);
+				button.Init(data.Id, data.Name, data.Category);
+				buttons.Add(button);
+			}
+		}
+
+		private void SetCategoryDropdown()
+		{
+			string[] CategoriesNames = System.Enum.GetNames(typeof(Category));
+
+			categoryDropdown.ClearOptions();
+
+			var options = new List<TMP_Dropdown.OptionData>();
+
+			for (int i = 0; i < CategoriesNames.Length; i++)
+			{
+				options.Add(new TMP_Dropdown.OptionData(CategoriesNames[i]));
+			}
+
+			categoryDropdown.AddOptions(options);
+		}
+
+		public void OnValueChanged(int selectedOptionIndex)
+		{
+			var selectedOption = categoryDropdown.options[selectedOptionIndex];
+
+			Category selectedCategory = (Category)System.Enum.Parse(typeof(Category), selectedOption.text);
+
+			FilterElements(selectedCategory);
+		}
+
+		private void FilterElements(Category selectedCategory)
+		{
+			foreach (var button in buttons)
+			{
+				button.SetVibility(selectedCategory);
+			}
 		}
 	}
 }

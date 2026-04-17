@@ -1,4 +1,6 @@
+using AsemblyTable.Core.SystemElements;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 public class SystemValidator : SingletonMB<SystemValidator>
@@ -17,7 +19,7 @@ public class SystemValidator : SingletonMB<SystemValidator>
 
 	public bool ValidateSystem(out string raport)
 	{
-		LayoutState state = new LayoutState(SystemElementSpawner.Instance.SpawnedElements);
+		LayoutState state = new LayoutState(SystemElementSpawner.Instance.SpawnedElements.Values);
 
 		Queue<ValidationResult> results = new Queue<ValidationResult>();
 
@@ -95,9 +97,9 @@ public struct ValidationResult
 
 public struct LayoutState
 {
-	public IReadOnlyList<SystemElement> SystemElements { get; private set; }
+	public IEnumerable<SystemElement> SystemElements { get; private set; }
 
-	public LayoutState(IReadOnlyList<SystemElement> systemElements)
+	public LayoutState(IEnumerable<SystemElement> systemElements)
 	{
 		SystemElements = systemElements;
 	}

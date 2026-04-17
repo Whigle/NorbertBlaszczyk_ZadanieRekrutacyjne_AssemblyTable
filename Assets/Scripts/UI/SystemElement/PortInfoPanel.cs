@@ -1,27 +1,30 @@
 using TMPro;
 using UnityEngine;
 
-public class PortInfoPanel : MonoBehaviour
+namespace AsemblyTable.Core.Ports.UI
 {
-	[SerializeField]
-	private TMP_Text TypeText;
-	[SerializeField]
-	private TMP_Text NameText;
-	[SerializeField]
-	private TMP_Text ConnectionText;
-
-	public void Show(Port port)
+	public class PortInfoPanel : MonoBehaviour
 	{
-		TypeText.text = $"Type: {port.Data.Type}";
-		NameText.text = $"Name: {port.Data.Name}";
+		[SerializeField]
+		private TMP_Text TypeText;
+		[SerializeField]
+		private TMP_Text NameText;
+		[SerializeField]
+		private TMP_Text ConnectionText;
 
-		ConnectionText.text = port.GetConnectionDetails();
+		public void Show(Port port)
+		{
+			TypeText.text = $"Type: {port.Data.Type}";
+			NameText.text = $"Name: {port.Data.Name}";
 
-		gameObject.SetActive(true);
-	}
+			ConnectionText.text = port.GetConnectionDetails();
 
-	public void Hide()
-	{
-		gameObject.SetActive(false);
+			gameObject.SetActive(true);
+		}
+
+		public void Hide()
+		{
+			gameObject.SetActive(false);
+		}
 	}
 }

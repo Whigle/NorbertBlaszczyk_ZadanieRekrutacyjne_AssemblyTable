@@ -1,74 +1,79 @@
+using AsemblyTable.Core.Ports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Type = AsemblyTable.Core.Ports.Type;
 
-public class SystemElement : MonoBehaviour
+namespace AsemblyTable.Core.SystemElements
 {
-	public event Action<int> Destroyed;
-
-	private SystemElementSO data;
-
-	[SerializeField]
-	private MeshRenderer meshRenderer;
-	[SerializeField]
-	private List<Port> ports;
-
-	public int Id { get; private set; }
-
-	public IReadOnlyList<Port> Inputs { get; private set; }
-	public IReadOnlyList<Port> Outputs { get; private set; }
-	public IReadOnlyList<Port> Ports => ports;
-
-	public SystemElementSO Data => data;
-
-	public void Init(int Id, SystemElementSO data)
+	public class SystemElement : MonoBehaviour
 	{
-		SetPortsIds();
+		public event Action<int> Destroyed;
 
-		this.Id = Id;
-		Inputs = ports.Where(port => port.Data.Type == Type.Input).ToList();
-		Outputs = ports.Where(port => port.Data.Type == Type.Output).ToList();
+		private SystemElementSO data;
 
-		this.data = data;
+		[SerializeField]
+		private MeshRenderer meshRenderer;
+		[SerializeField]
+		private List<Port> ports;
 
-		if (data.Category == Category.None)
+		public int Id { get; private set; }
+
+		public IReadOnlyList<Port> Inputs { get; private set; }
+		public IReadOnlyList<Port> Outputs { get; private set; }
+		public IReadOnlyList<Port> Ports => ports;
+
+		public SystemElementSO Data => data;
+
+		public void Init(int Id, SystemElementSO data)
 		{
-			Debug.LogError("Category not set properly.", this);
-			return;
+			SetPortsIds();
+
+			this.Id = Id;
+			Inputs = ports.Where(port => port.Data.Type == Type.Input).ToList();
+			Outputs = ports.Where(port => port.Data.Type == Type.Output).ToList();
+
+			this.data = data;
+
+			if (data.Category == Category.None)
+			{
+				Debug.LogError("Category not set properly.", this);
+				return;
+			}
+
+			SetColor();
 		}
 
-		SetColor();
-	}
-
-	private void SetPortsIds()
-	{
-		int portId = 0;
-		foreach (var port in ports)
+		private void SetPortsIds()
 		{
-			port.SetId(portId++);
-		}
-	}
-
-	private void SetColor()
-	{
-		Color color = data.Color;
-
-		var block = new MaterialPropertyBlock();
-		meshRenderer.GetPropertyBlock(block);
-		block.SetColor("_BaseColor", color);
-		meshRenderer.SetPropertyBlock(block);
-	}
-
-	public void Delete()
-	{
-		foreach (var port in ports)
-		{
-			port.Disconnect();
+			int portId = 0;
+			foreach (var port in ports)
+			{
+				port.SetId(portId++);
+			}
 		}
 
-		Destroyed?.Invoke(Id);
+		private void SetColor()
+		{
+			Color color = data.Color;
 
-		Destroy(this.gameObject);
+			var block = new MaterialPropertyBlock();
+			meshRenderer.GetPropertyBlock(block);
+			block.SetColor("_BaseColor", color);
+			meshRenderer.SetPropertyBlock(block);
+		}
+
+		public void Delete()
+		{
+			foreach (var port in ports)
+			{
+				port.Disconnect();
+			}
+
+			Destroyed?.Invoke(Id);
+
+			Destroy(this.gameObject);
+		}
 	}
 }

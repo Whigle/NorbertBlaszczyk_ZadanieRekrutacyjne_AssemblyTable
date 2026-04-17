@@ -1,45 +1,48 @@
+using AsemblyTable.Core.Ports.UI;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class SystemElementInfoPanel : MonoBehaviour
+namespace AsemblyTable.Core.SystemElements.UI
 {
-	[SerializeField]
-	private TMP_Text NameText;
-	[SerializeField]
-	private TMP_Text CategoryText;
-	[SerializeField]
-	private Transform portsContent;
-
-	[SerializeField]
-	private PortInfoPanel panelInfoPrefab;
-
-	public void Show(SystemElement element)
+	public class SystemElementInfoPanel : MonoBehaviour
 	{
-		NameText.text = element.Data.Name;
-		CategoryText.text = element.Data.Category.ToString();
+		[SerializeField]
+		private TMP_Text NameText;
+		[SerializeField]
+		private TMP_Text CategoryText;
+		[SerializeField]
+		private Transform portsContent;
 
-		ClearPortsContentChildren();
+		[SerializeField]
+		private PortInfoPanel panelInfoPrefab;
 
-		for (int i = 0; i < element.Ports.Count; i++) 
+		public void Show(SystemElement element)
 		{
-			var portInfo = Instantiate(panelInfoPrefab, portsContent);
-			portInfo.Show(element.Ports[i]);
+			NameText.text = element.Data.Name;
+			CategoryText.text = element.Data.Category.ToString();
+
+			ClearPortsContentChildren();
+
+			for (int i = 0; i < element.Ports.Count; i++)
+			{
+				var portInfo = Instantiate(panelInfoPrefab, portsContent);
+				portInfo.Show(element.Ports[i]);
+			}
+
+			gameObject.SetActive(true);
 		}
 
-		gameObject.SetActive(true);
-	}
-
-	void ClearPortsContentChildren()
-	{
-		while (portsContent.childCount > 0)
+		void ClearPortsContentChildren()
 		{
-			DestroyImmediate(portsContent.GetChild(0).gameObject);  
+			while (portsContent.childCount > 0)
+			{
+				DestroyImmediate(portsContent.GetChild(0).gameObject);
+			}
 		}
-	}
 
-	public void Hide()
-	{
-		gameObject.SetActive(false);
+		public void Hide()
+		{
+			gameObject.SetActive(false);
+		}
 	}
 }
