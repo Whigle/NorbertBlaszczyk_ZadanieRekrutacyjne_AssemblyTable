@@ -71,8 +71,9 @@ PrefabInstance:
     - target: {fileID: 3842039093905701414, guid: 7089775a4fd3ab84d938b89b5e9e47ac,
         type: 3}
       propertyPath: data.compatibleElements.Array.data[0]
-      value: Mixer
-      objectReference: {fileID: 0}
+      value: 
+      objectReference: {fileID: 11400000, guid: 75c02616b4c077343944e253f23a6d15,
+        type: 2}
     - target: {fileID: 6283562227396407201, guid: 7089775a4fd3ab84d938b89b5e9e47ac,
         type: 3}
       propertyPath: m_Name

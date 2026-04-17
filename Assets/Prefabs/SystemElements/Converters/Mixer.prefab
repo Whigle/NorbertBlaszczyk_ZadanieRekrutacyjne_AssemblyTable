@@ -52,13 +52,15 @@ PrefabInstance:
     - target: {fileID: 2806585648408185405, guid: ae77bc1af6b293540a99f3839c382e2d,
         type: 3}
       propertyPath: data.compatibleElements.Array.data[0]
-      value: RawMaterialTankA
-      objectReference: {fileID: 0}
+      value: 
+      objectReference: {fileID: 11400000, guid: a350491c546e87c418a18ce991f5c94e,
+        type: 2}
     - target: {fileID: 2806585648408185405, guid: ae77bc1af6b293540a99f3839c382e2d,
         type: 3}
       propertyPath: data.compatibleElements.Array.data[1]
-      value: RawMaterialTankB
-      objectReference: {fileID: 0}
+      value: 
+      objectReference: {fileID: 11400000, guid: 2b8a0b2f14abf3249bf1d4860f8a837e,
+        type: 2}
     - target: {fileID: 3988011576936569304, guid: ae77bc1af6b293540a99f3839c382e2d,
         type: 3}
       propertyPath: m_Name
@@ -82,8 +84,9 @@ PrefabInstance:
     - target: {fileID: 4873734381325111080, guid: ae77bc1af6b293540a99f3839c382e2d,
         type: 3}
       propertyPath: data.compatibleElements.Array.data[0]
-      value: Heater
-      objectReference: {fileID: 0}
+      value: 
+      objectReference: {fileID: 11400000, guid: 03e5986c166ddf3419517fd1de3fb15e,
+        type: 2}
     - target: {fileID: 7777513580384107545, guid: ae77bc1af6b293540a99f3839c382e2d,
         type: 3}
       propertyPath: data.name
@@ -102,13 +105,15 @@ PrefabInstance:
     - target: {fileID: 7777513580384107545, guid: ae77bc1af6b293540a99f3839c382e2d,
         type: 3}
       propertyPath: data.compatibleElements.Array.data[0]
-      value: RawMaterialTankA
-      objectReference: {fileID: 0}
+      value: 
+      objectReference: {fileID: 11400000, guid: a350491c546e87c418a18ce991f5c94e,
+        type: 2}
     - target: {fileID: 7777513580384107545, guid: ae77bc1af6b293540a99f3839c382e2d,
         type: 3}
       propertyPath: data.compatibleElements.Array.data[1]
-      value: RawMaterialTankB
-      objectReference: {fileID: 0}
+      value: 
+      objectReference: {fileID: 11400000, guid: 2b8a0b2f14abf3249bf1d4860f8a837e,
+        type: 2}
     - target: {fileID: 7844833783986074800, guid: ae77bc1af6b293540a99f3839c382e2d,
         type: 3}
       propertyPath: m_LocalPosition.x

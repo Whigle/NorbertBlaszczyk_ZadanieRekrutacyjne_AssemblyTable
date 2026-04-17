@@ -12,19 +12,19 @@ public struct PortData
 	[SerializeField]
 	private List<string> compatibleCategories;
 	[SerializeField]
-	private List<string> compatibleElements;
+	private List<SystemElementSO> compatibleElements;
 
 	public Type Type => type;
 	public string Name => name;
 	public IReadOnlyList<string> CompatibleCategories => compatibleCategories;
-	public IReadOnlyList<string> CompatibleElements => compatibleElements;
+	public IReadOnlyList<SystemElementSO> CompatibleElements => compatibleElements;
 
-	public PortData(Type type = 0, string name = "NotSet", List<string> compatibleCategories = null, List<string> compatibleElements = null)
+	public PortData(Type type = 0, string name = "NotSet", List<string> compatibleCategories = null, List<SystemElementSO> compatibleElements = null)
 	{
 		this.type = type;
 		this.name = name;
 		this.compatibleCategories = compatibleCategories != null ? compatibleCategories : new List<string>();
-		this.compatibleElements = compatibleElements != null ? compatibleElements : new List<string>();
+		this.compatibleElements = compatibleElements != null ? compatibleElements : new List<SystemElementSO>();
 	}
 }
 

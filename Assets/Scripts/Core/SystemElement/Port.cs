@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 public class Port : MonoBehaviour
@@ -19,6 +20,8 @@ public class Port : MonoBehaviour
 
 	private void Awake()
 	{
+		Parent = GetComponentInParent<SystemElement>();
+
 		SetColor();
 	}
 
@@ -64,5 +67,11 @@ public class Port : MonoBehaviour
 		{
 			return $"Port connected to: {ConnectedPort.Data.Name}";
 		}
+	}
+
+	//TODO: Check by compatible CompatibleCategories
+	internal bool IsConnectionValid()
+	{
+		return data.CompatibleElements.Contains(ConnectedPort.Parent.Data);
 	}
 }

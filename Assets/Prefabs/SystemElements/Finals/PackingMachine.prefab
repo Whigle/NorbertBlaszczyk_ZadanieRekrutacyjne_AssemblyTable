@@ -31,8 +31,9 @@ PrefabInstance:
     - target: {fileID: 1242272210797277294, guid: 2711b82d645bdf7468294321a22f1411,
         type: 3}
       propertyPath: data.compatibleElements.Array.data[0]
-      value: Heater
-      objectReference: {fileID: 0}
+      value: 
+      objectReference: {fileID: 11400000, guid: 03e5986c166ddf3419517fd1de3fb15e,
+        type: 2}
     - target: {fileID: 3927329573976544313, guid: 2711b82d645bdf7468294321a22f1411,
         type: 3}
       propertyPath: data

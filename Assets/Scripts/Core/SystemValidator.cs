@@ -11,7 +11,7 @@ public class SystemValidator : SingletonMB<SystemValidator>
 	{
 		base.Awake();
 
-		//validators.Add(new ConnectionCompatibilityValidator());
+		validators.Add(new ConnectionCompatibilityValidator());
 		validators.Add(new OutputsValidator());
 	}
 
@@ -44,6 +44,12 @@ public class SystemValidator : SingletonMB<SystemValidator>
 		while (results.Count > 0)
 		{
 			var result = results.Dequeue();
+			
+			if(result.IsValid) 
+			{
+				continue;
+			}
+
 			raportGenerator.AppendLine(result.ToString());
 		}
 
@@ -61,10 +67,13 @@ public struct ValidationResult
 	public bool IsValid { get; set; }
 	public string Result { get; private set; }
 
-	public ValidationResult(string result, bool isValid = true)
+	public Severity ResultSeverity { get; private set; }
+
+	public ValidationResult(string result, Severity resultSeverity = Severity.None, bool isValid = true)
 	{
 		Result = result;
 		IsValid = isValid;
+		ResultSeverity = resultSeverity;
 	}
 
 	public void AppendLine(string text)
@@ -75,6 +84,12 @@ public struct ValidationResult
 	public override string ToString()
 	{
 		return Result;
+	}
+
+	public enum Severity {
+		None = 0,
+		Warning = 1,
+		Error = 2,	
 	}
 }
 
@@ -92,7 +107,22 @@ public class ConnectionCompatibilityValidator : ILayoutValidator
 {
 	public ValidationResult Validate(LayoutState state)
 	{
-		throw new System.NotImplementedException();
+		var result = new ValidationResult("ConnectionCompatibilityValidator result: Not all connections are valid", ValidationResult.Severity.Error);
+
+		foreach (var systemElement in state.SystemElements)
+		{
+			foreach (var output in systemElement.Outputs)
+			{
+				if (output.IsConnected && !output.IsConnectionValid())
+				{
+					result.IsValid = false;
+
+					result.AppendLine($"Id:{systemElement.Id}, SE1:{systemElement.Data.Name}, P1:{output.Data.Name}, SE2:{output.ConnectedPort.Parent.Data.Name}, P2:{output.ConnectedPort.Data.Name}");
+				}
+			}
+		}
+
+		return result;
 	}
 }
 
@@ -101,7 +131,7 @@ public class OutputsValidator : ILayoutValidator
 {
 	public ValidationResult Validate(LayoutState state)
 	{
-		var result = new ValidationResult("OutputsValidator result: Not all outputs are connected");
+		var result = new ValidationResult("OutputsValidator result: Not all outputs are connected", ValidationResult.Severity.Warning);
 
 		foreach (var systemElement in state.SystemElements)
 		{

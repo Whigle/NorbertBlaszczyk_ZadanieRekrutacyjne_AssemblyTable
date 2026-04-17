@@ -26,8 +26,9 @@ PrefabInstance:
     - target: {fileID: 514018700903305306, guid: 87cd30a18431939409354c3f271dd9d2,
         type: 3}
       propertyPath: data.compatibleElements.Array.data[0]
-      value: PackingMachine
-      objectReference: {fileID: 0}
+      value: 
+      objectReference: {fileID: 11400000, guid: 58ac851aaab12e8439a940e683f597d9,
+        type: 2}
     - target: {fileID: 1146015217896948484, guid: 87cd30a18431939409354c3f271dd9d2,
         type: 3}
       propertyPath: m_Name
@@ -51,8 +52,9 @@ PrefabInstance:
     - target: {fileID: 3543637013584355168, guid: 87cd30a18431939409354c3f271dd9d2,
         type: 3}
       propertyPath: data.compatibleElements.Array.data[0]
-      value: Mixer
-      objectReference: {fileID: 0}
+      value: 
+      objectReference: {fileID: 11400000, guid: 75c02616b4c077343944e253f23a6d15,
+        type: 2}
     - target: {fileID: 3814844930842782467, guid: 87cd30a18431939409354c3f271dd9d2,
         type: 3}
       propertyPath: data
