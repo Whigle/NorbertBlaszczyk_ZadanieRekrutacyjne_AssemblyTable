@@ -54,7 +54,6 @@ namespace AsemblyTable.Core.Ports
 
 		public void CreateConnection(Port output, Port input)
 		{
-
 			var visual = SetupConnectionVisual(output, input);
 
 			ResetLineRenderer();
@@ -174,7 +173,7 @@ namespace AsemblyTable.Core.Ports
 		{
 			ConnectionsSaveData saveData = new ConnectionsSaveData() { Connections = new List<ConnectionSaveData>() };
 
-			foreach (var connection in PortConnectionsController.Instance.Connections)
+			foreach (var connection in connections.Values)
 			{
 				saveData.Connections.Add(new ConnectionSaveData()
 				{
@@ -212,6 +211,7 @@ namespace AsemblyTable.Core.Ports
 
 		public ConnectionData(int Id, Port outputPort, Port inputPort, PortsConnectionVisuals visuals)
 		{
+			this.Id = Id;
 			OutputPort = outputPort;
 			InputPort = inputPort;
 			Visuals = visuals;
