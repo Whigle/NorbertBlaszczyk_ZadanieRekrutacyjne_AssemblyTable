@@ -3,12 +3,11 @@ using UnityEngine;
 
 public class Raycaster : MonoBehaviour
 {
+	//TODO: Add raycast filtering, allow systems to take exclusive control over raycaster
 	public static Raycaster Instance;
 
 	[SerializeField]
 	private InputManager inputManager;
-
-	//private RaycastHit[] hits = new RaycastHit[10];
 
 	private Dictionary<int, RegisterData> registerDatas = new Dictionary<int, RegisterData>();
 
@@ -54,18 +53,6 @@ public class Raycaster : MonoBehaviour
 
 		if (Physics.Raycast(ray, out RaycastHit hit, 10))
 		{
-			//var cos = new Comparison<RaycastHit>();
-
-			//System.Collections.IComparer
-
-			//System.Array.Sort(hits, 0, hitsCount, 
-
-			//Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
-
-			//foreach (var hit in hits)
-			//{
-			//if (hit.collider == null) continue;
-
 			string tag = hit.collider.tag;
 
 			for (int i = 0; i < registerDatas.Count; i++)
@@ -77,7 +64,6 @@ public class Raycaster : MonoBehaviour
 					if (useRaycast) return;
 				}
 			}
-			//}
 		}
 	}
 

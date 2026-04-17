@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class PortConnectionsController : MonoBehaviour, IRaycastListener
 {
+	//TODO: Better control over system state, if currently creating connections or not.
+
 	private const string PORT_TAG = "Port";
 
 	[SerializeField]
@@ -37,7 +38,7 @@ public class PortConnectionsController : MonoBehaviour, IRaycastListener
 	{
 		if (manipulatedObject != null)
 		{
-			if(Raycaster.Instance.RaycastFromMouseScreenPosition(tableLayerMask | portLayerMask, out RaycastHit hit)) 
+			if (Raycaster.Instance.RaycastFromMouseScreenPosition(tableLayerMask | portLayerMask, out RaycastHit hit))
 			{
 				lineRenderer.SetPosition(1, hit.point);
 			}
@@ -56,19 +57,40 @@ public class PortConnectionsController : MonoBehaviour, IRaycastListener
 		}
 	}
 
-	private void OnRMBPressed()
+	private bool OnRMBPressed(RaycastHit hit)
 	{
-		//TODO: Stop connecting process or remove existing one
-		manipulatedObject = null;
+		if (manipulatedObject != null)
+		{
+			manipulatedObject = null;
+			ResetLineRenderer();
 
-		ResetLineRenderer();
+			return true;
+		}
+		else
+		{
+			if (hit.collider.tag == PORT_TAG)
+			{
+				var port = hit.collider.GetComponent<Port>();
+
+				if (port.IsConnected)
+				{
+					port.Disconnect();
+				}
+
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private void StartConnectionCreationProcess(RaycastHit hit)
 	{
 		manipulatedObject = hit.collider.gameObject.GetComponent<Port>();
 
-		if(manipulatedObject.Data.Type == Type.Input) {
+		if (manipulatedObject.Data.Type == Type.Input)
+		{
+			manipulatedObject = null;
 			return;
 		}
 
@@ -102,7 +124,7 @@ public class PortConnectionsController : MonoBehaviour, IRaycastListener
 		connections.Remove(id);
 	}
 
-	private void ResetLineRenderer() 
+	private void ResetLineRenderer()
 	{
 		lineRenderer.enabled = false;
 		lineRenderer.SetPosition(0, Vector3.zero);
@@ -127,17 +149,16 @@ public class PortConnectionsController : MonoBehaviour, IRaycastListener
 			OnLMBPressed(hit);
 			return true;
 		}
-		else if (mouseEvent == MouseEvent.RMBPressed && manipulatedObject != null)
+		else if (mouseEvent == MouseEvent.RMBPressed)
 		{
-			OnRMBPressed();
-			return true;
+			return OnRMBPressed(hit);
 		}
 
 		return false;
 	}
 }
 
-public class ConnectionData 
+public class ConnectionData
 {
 	public event Action<int> Disconnected;
 
@@ -146,7 +167,7 @@ public class ConnectionData
 	public Port InputPort;
 	public PortsConnectionVisuals Visuals;
 
-	public ConnectionData(int Id, Port outputPort, Port inputPort, PortsConnectionVisuals visuals) 
+	public ConnectionData(int Id, Port outputPort, Port inputPort, PortsConnectionVisuals visuals)
 	{
 		OutputPort = outputPort;
 		InputPort = inputPort;

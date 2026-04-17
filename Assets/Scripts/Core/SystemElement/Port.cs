@@ -13,7 +13,7 @@ public class Port : MonoBehaviour
 
 	public PortData Data => data;
 
-	public bool IsConnected { get; private set; }
+	public bool IsConnected => ConnectedPort != null;
 	public Port ConnectedPort { get; private set; }
 	public SystemElement Parent { get; private set; }
 

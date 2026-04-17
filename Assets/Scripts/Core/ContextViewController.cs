@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class ContextViewController : MonoBehaviour, IRaycastListener
 {
+	//TODO: After show hide if pressed outside canvas or add close btn
 	private const string SYSTEM_ELEMENT_TAG = "SystemElement";
 
 	public event Action<SystemElement> ShowContextMenu;
