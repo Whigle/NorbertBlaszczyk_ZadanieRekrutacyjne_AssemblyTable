@@ -1,7 +1,10 @@
+using System;
 using UnityEngine;
 
 public class Port : MonoBehaviour
 {
+	public event Action<Port> Disconnected;
+
 	[SerializeField]
 	private PortData data;
 
@@ -21,7 +24,8 @@ public class Port : MonoBehaviour
 
 	private void SetColor()
 	{
-		if(data.Type == Type.None) {
+		if (data.Type == Type.None)
+		{
 			Debug.LogError("Port type not set properly.", this);
 			return;
 		}
@@ -32,5 +36,33 @@ public class Port : MonoBehaviour
 		meshRenderer.GetPropertyBlock(block);
 		block.SetColor("_BaseColor", color);
 		meshRenderer.SetPropertyBlock(block);
+	}
+
+	public void Connect(Port port) 
+	{
+		if (ConnectedPort != null)
+		{
+			ConnectedPort.Disconnect();
+		}
+
+		ConnectedPort = port;
+	}
+
+	public void Disconnect() 
+	{
+		ConnectedPort = null;
+		Disconnected?.Invoke(this);
+	}
+
+	public string GetConnectionDetails()
+	{
+		if (ConnectedPort == null)
+		{
+			return "Port is not connected";
+		}
+		else
+		{
+			return $"Port connected to: {ConnectedPort.Data.Name}";
+		}
 	}
 }

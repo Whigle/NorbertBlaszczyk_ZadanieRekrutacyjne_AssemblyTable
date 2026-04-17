@@ -42,4 +42,13 @@ public class SystemElement : MonoBehaviour
 		block.SetColor("_BaseColor", color);
 		meshRenderer.SetPropertyBlock(block);
 	}
+
+	public void Delete() {
+		foreach (var port in ports)
+		{
+			port.Disconnect();
+		}
+
+		Destroy(this.gameObject);
+	}
 }

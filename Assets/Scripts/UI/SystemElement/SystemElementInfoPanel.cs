@@ -14,21 +14,32 @@ public class SystemElementInfoPanel : MonoBehaviour
 	[SerializeField]
 	private PortInfoPanel panelInfoPrefab;
 
-	private SystemElement element;
-
 	public void Show(SystemElement element)
 	{
-		NameText.text = $"Type: {element.Data.Name}";
-		CategoryText.text = $"Name: {element.Data.Category}";
+		NameText.text = element.Data.Name;
+		CategoryText.text = element.Data.Category.ToString();
 
-		this.element = element;
+		ClearPortsContentChildren();
+
+		for (int i = 0; i < element.Ports.Count; i++) 
+		{
+			var portInfo = Instantiate(panelInfoPrefab, portsContent);
+			portInfo.Show(element.Ports[i]);
+		}
 
 		gameObject.SetActive(true);
 	}
 
+	void ClearPortsContentChildren()
+	{
+		while (portsContent.childCount > 0)
+		{
+			DestroyImmediate(portsContent.GetChild(0).gameObject);  
+		}
+	}
+
 	public void Hide()
 	{
-		element = null;
 		gameObject.SetActive(false);
 	}
 }

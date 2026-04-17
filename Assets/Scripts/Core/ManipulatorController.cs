@@ -1,7 +1,9 @@
 using UnityEngine;
 
-public class ManipulatorController : MonoBehaviour
+public class ManipulatorController : MonoBehaviour, IRaycastListener
 {
+	private const string SYSTEM_ELEMENT_TAG = "SystemElement";
+
 	[SerializeField]
 	private InputManager inputManager;
 
@@ -14,8 +16,8 @@ public class ManipulatorController : MonoBehaviour
 
 	private void Awake()
 	{
-		inputManager.LMBPressed += OnLMBPressed;
-		inputManager.LMBReleased += OnLMBReleased;
+		Raycaster.Instance.Register(new RegisterData(SYSTEM_ELEMENT_TAG, MouseEvent.LMBPressed, this));
+		Raycaster.Instance.Register(new RegisterData(SYSTEM_ELEMENT_TAG, MouseEvent.LMBReleased, this));
 	}
 
 	private void Update()
@@ -31,24 +33,27 @@ public class ManipulatorController : MonoBehaviour
 		}
 	}
 
-	private void OnDestroy()
+	private void OnLMBPressed(RaycastHit hit)
 	{
-		inputManager.LMBPressed -= OnLMBPressed;
-		inputManager.LMBReleased -= OnLMBReleased;
-	}
-
-	private void OnLMBPressed()
-	{
-		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-		if (Physics.Raycast(ray, out RaycastHit hit, 10, systemElementLayerMask))
-		{
-			manipulatedObject = hit.collider.gameObject.GetComponent<SEManipulator>();
-		}
+		manipulatedObject = hit.collider.gameObject.GetComponent<SEManipulator>();
 	}
 
 	private void OnLMBReleased()
 	{
 		manipulatedObject = null;
+	}
+
+	public bool ProcessRaycast(MouseEvent mouseEvent, RaycastHit hit)
+	{
+		if (mouseEvent == MouseEvent.LMBPressed)
+		{
+			OnLMBPressed(hit);
+		}
+		else if (mouseEvent == MouseEvent.LMBReleased)
+		{
+			OnLMBReleased();
+		}
+
+		return true;
 	}
 }

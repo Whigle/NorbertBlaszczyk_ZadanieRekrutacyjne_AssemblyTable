@@ -10,9 +10,11 @@ public class SystemElementContextMenu : MonoBehaviour
 	private SystemElementInfoPanel systemElementInfoPanel;
 
 	private SystemElement element;
+	private RectTransform rectTransform;
 
 	private void Awake()
 	{
+		rectTransform = GetComponent<RectTransform>();
 		controller.ShowContextMenu += OnShowContextMenu;
 		gameObject.SetActive(false);
 
@@ -24,6 +26,7 @@ public class SystemElementContextMenu : MonoBehaviour
 
 	private void OnShowContextMenu(SystemElement element)
 	{
+		rectTransform.anchoredPosition = InputManager.Instance.MouseScreenPosition;
 		this.element = element;
 		gameObject.SetActive(true);
 	}
@@ -40,7 +43,7 @@ public class SystemElementContextMenu : MonoBehaviour
 	public void OnDeleteBtnPressed() 
 	{
 		if(element) {
-			Destroy(element.gameObject);
+			element.Delete();
 			element = null;
 		}
 		gameObject.SetActive(false);

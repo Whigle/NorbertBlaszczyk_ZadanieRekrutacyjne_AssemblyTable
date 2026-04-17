@@ -1,12 +1,11 @@
 using System;
 using UnityEngine;
 
-public class ContextViewController : MonoBehaviour
+public class ContextViewController : MonoBehaviour, IRaycastListener
 {
-	public event Action<SystemElement> ShowContextMenu;
+	private const string SYSTEM_ELEMENT_TAG = "SystemElement";
 
-	[SerializeField]
-	private InputManager inputManager;
+	public event Action<SystemElement> ShowContextMenu;
 
 	[SerializeField]
 	private LayerMask systemElementLayerMask;
@@ -15,29 +14,32 @@ public class ContextViewController : MonoBehaviour
 
 	private void Awake()
 	{
-		inputManager.RMBPressed += OnRMBPressed;
-		inputManager.RMBReleased += OnRMBReleased;
+		Raycaster.Instance.Register(new RegisterData(SYSTEM_ELEMENT_TAG, MouseEvent.RMBPressed, this));
+		Raycaster.Instance.Register(new RegisterData(SYSTEM_ELEMENT_TAG, MouseEvent.RMBReleased, this));
 	}
 
-	private void OnDestroy()
+	private void OnRMBPressed(RaycastHit hit)
 	{
-		inputManager.RMBPressed -= OnRMBPressed;
-		inputManager.RMBReleased -= OnRMBReleased;
-	}
-
-	private void OnRMBPressed()
-	{
-		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-		if (Physics.Raycast(ray, out RaycastHit hit, 10, systemElementLayerMask))
-		{
-			manipulatedObject = hit.collider.gameObject.GetComponent<SystemElement>();
-			ShowContextMenu?.Invoke(manipulatedObject);
-		}
+		manipulatedObject = hit.collider.gameObject.GetComponent<SystemElement>();
+		ShowContextMenu?.Invoke(manipulatedObject);
 	}
 
 	private void OnRMBReleased()
 	{
 		manipulatedObject = null;
+	}
+
+	public bool ProcessRaycast(MouseEvent mouseEvent, RaycastHit hit)
+	{
+		if (mouseEvent == MouseEvent.RMBPressed)
+		{
+			OnRMBPressed(hit);
+		}
+		else if (mouseEvent == MouseEvent.RMBReleased)
+		{
+			OnRMBReleased();
+		}
+
+		return true;
 	}
 }

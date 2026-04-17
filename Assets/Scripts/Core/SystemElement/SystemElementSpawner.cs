@@ -13,7 +13,7 @@ public class SystemElementSpawner : MonoBehaviour
 	private void Awake()
 	{
 		if(Instance != null) {
-			Debug.LogError("More then one SystemElementSpawner on scene, this one will be destroyed", this);
+			Debug.LogError($"More then one {nameof(SystemElementSpawner)} on scene, this one will be destroyed", this);
 			Destroy(this);
 		}
 
@@ -29,11 +29,11 @@ public class SystemElementSpawner : MonoBehaviour
 		gameObject.GetComponent<SystemElement>()?.Init(data);
 	}
 
-	private void OnDrawGizmos()
+	private void OnDrawGizmosSelected()
 	{
 		if(spawnPoint != null) {
 			Gizmos.color = Color.red;
-			Gizmos.DrawSphere(spawnPoint.transform.position, .25f);
+			Gizmos.DrawWireSphere(spawnPoint.transform.position, .25f);
 		}
 	}
 }

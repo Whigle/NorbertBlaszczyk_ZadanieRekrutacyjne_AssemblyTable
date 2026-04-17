@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4906598096658021022}
   m_Layer: 7
   m_Name: SystemElementBase
-  m_TagString: Untagged
+  m_TagString: SystemElement
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -121,8 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meshRenderer: {fileID: 4665583343057706306}
-  inputs: []
-  outputs: []
+  ports: []
 --- !u!114 &4906598096658021022
 MonoBehaviour:
   m_ObjectHideFlags: 0
