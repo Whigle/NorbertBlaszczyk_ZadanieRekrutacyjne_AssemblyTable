@@ -1,37 +1,42 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
+using System.Linq;
 using UnityEngine;
 
-public class SystemElementSpawner : MonoBehaviour
+public class SystemElementSpawner : SingletonMB<SystemElementSpawner>
 {
-	public static SystemElementSpawner Instance;
-
 	[SerializeField]
 	private Transform spawnPoint;
 
-	private void Awake()
-	{
-		if(Instance != null) {
-			Debug.LogError($"More then one {nameof(SystemElementSpawner)} on scene, this one will be destroyed", this);
-			Destroy(this);
-		}
+	private Dictionary<int, SystemElement> spawnedElements = new Dictionary<int, SystemElement>();
 
-		Instance = this;
-	}
+	private int idCounter = 0;
 
-	public async void SpawnSystemElement(SystemElementSO data) 
+	public IReadOnlyList<SystemElement> SpawnedElements => spawnedElements.Values.ToList();
+
+	public async void SpawnSystemElement(SystemElementSO data)
 	{
 		var handle = data.Prefab.InstantiateAsync(spawnPoint.position, Quaternion.identity);
 
 		GameObject gameObject = await handle.Task;
 
-		gameObject.GetComponent<SystemElement>()?.Init(data);
+		if (handle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+		{
+			var newSystemElement = gameObject.GetComponent<SystemElement>();
+			newSystemElement.Init(idCounter, data);
+			newSystemElement.Destroyed += OnDestroyed;
+			spawnedElements.Add(idCounter++, newSystemElement);
+		}
+	}
+
+	private void OnDestroyed(int id)
+	{
+		spawnedElements.Remove(id);
 	}
 
 	private void OnDrawGizmosSelected()
 	{
-		if(spawnPoint != null) {
+		if (spawnPoint != null)
+		{
 			Gizmos.color = Color.red;
 			Gizmos.DrawWireSphere(spawnPoint.transform.position, .25f);
 		}

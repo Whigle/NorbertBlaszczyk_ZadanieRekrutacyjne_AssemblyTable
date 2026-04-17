@@ -1,11 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Raycaster : MonoBehaviour
+public class Raycaster : SingletonMB<Raycaster>
 {
-	//TODO: Add raycast filtering, allow systems to take exclusive control over raycaster
-	public static Raycaster Instance;
-
 	[SerializeField]
 	private InputManager inputManager;
 
@@ -13,15 +10,9 @@ public class Raycaster : MonoBehaviour
 
 	private int idCounter = 0;
 
-	private void Awake()
+	protected override void Awake()
 	{
-		if (Instance != null)
-		{
-			Debug.LogError($"More then one {nameof(Raycaster)} on scene, this one will be destroyed", this);
-			Destroy(this);
-		}
-
-		Instance = this;
+		base.Awake();
 
 		inputManager.LMBPressed += OnLMBPressed;
 		inputManager.RMBPressed += OnRMBPressed;

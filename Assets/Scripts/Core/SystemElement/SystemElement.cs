@@ -1,9 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class SystemElement : MonoBehaviour
 {
+	public event Action<int> Destroyed;
+
 	private SystemElementSO data;
 
 	[SerializeField]
@@ -11,14 +15,17 @@ public class SystemElement : MonoBehaviour
 	[SerializeField]
 	private List<Port> ports;
 
+	public int Id { get; private set; }
+
 	public IReadOnlyList<Port> Inputs { get; private set; }
 	public IReadOnlyList<Port> Outputs { get; private set; }
 	public IReadOnlyList<Port> Ports => ports;
 
 	public SystemElementSO Data => data;
 
-	public void Init(SystemElementSO data)
+	public void Init(int Id, SystemElementSO data)
 	{
+		this.Id = Id;
 		Inputs = ports.Where(port => port.Data.Type == Type.Input).ToList();
 		Outputs = ports.Where(port => port.Data.Type == Type.Output).ToList();
 
@@ -48,6 +55,8 @@ public class SystemElement : MonoBehaviour
 		{
 			port.Disconnect();
 		}
+
+		Destroyed?.Invoke(Id);
 
 		Destroy(this.gameObject);
 	}
