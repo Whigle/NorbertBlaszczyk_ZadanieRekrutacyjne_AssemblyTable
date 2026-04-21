@@ -1,4 +1,4 @@
-using AsemblyTable.Core.Serialization;
+using AssemblyTable.Core.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace AsemblyTable.Core.SystemElements
+namespace AssemblyTable.Core.SystemElements
 {
 	public class SystemElementSpawner : SingletonMB<SystemElementSpawner>, ISerializable<ElementsSaveData>
 	{

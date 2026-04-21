@@ -1,11 +1,11 @@
-using AsemblyTable.Core.Ports;
-using AsemblyTable.Core.SystemElements;
+using AssemblyTable.Core.Ports;
+using AssemblyTable.Core.SystemElements;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace AsemblyTable.Core.Serialization
+namespace AssemblyTable.Core.Serialization
 {
 	public class SystemSerializer : SingletonMB<SystemSerializer>
 	{

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AsemblyTable.Core.Ports
+namespace AssemblyTable.Core.Ports
 {
 	[Serializable]
 	public struct PortData

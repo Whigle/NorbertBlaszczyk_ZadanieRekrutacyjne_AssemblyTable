@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace AsemblyTable.Core.Ports
+namespace AssemblyTable.Core.Ports
 {
 	public class PortsConnectionVisuals : MonoBehaviour
 	{

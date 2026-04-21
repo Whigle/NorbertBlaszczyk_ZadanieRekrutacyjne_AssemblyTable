@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace AsemblyTable.Core.Ports.UI
+namespace AssemblyTable.Core.Ports.UI
 {
 	public class PortInfoPanel : MonoBehaviour
 	{

@@ -1,11 +1,11 @@
-using AsemblyTable.Core.Ports;
+using AssemblyTable.Core.Ports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Type = AsemblyTable.Core.Ports.Type;
+using Type = AssemblyTable.Core.Ports.Type;
 
-namespace AsemblyTable.Core.SystemElements
+namespace AssemblyTable.Core.SystemElements
 {
 	public class SystemElement : MonoBehaviour
 	{

@@ -1,6 +1,6 @@
 {
     "name": "AssemblyTable.UI",
-    "rootNamespace": "",
+    "rootNamespace": "AssemblyTable.UI",
     "references": [
         "GUID:c61c64a0be64cb04ba08e5279ca44a51",
         "GUID:6055be8ebefd69e48b49212b09b47b2f",

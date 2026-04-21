@@ -1,12 +1,12 @@
-using AsemblyTable.Core.Serialization;
-using AsemblyTable.Core.SystemElements;
+using AssemblyTable.Core.Serialization;
+using AssemblyTable.Core.SystemElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace AsemblyTable.Core.Ports
+namespace AssemblyTable.Core.Ports
 {
 	public class PortConnectionsController : SingletonMB<PortConnectionsController>, IRaycastListener, ISerializable<ConnectionsSaveData>
 	{

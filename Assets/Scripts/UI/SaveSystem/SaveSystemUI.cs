@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AsemblyTable.Core.Serialization.UI
+namespace AssemblyTable.Core.Serialization.UI
 {
 	public class SaveSystemUI : MonoBehaviour
 	{
