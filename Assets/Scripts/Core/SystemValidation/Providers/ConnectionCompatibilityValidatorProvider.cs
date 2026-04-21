@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace AssemblyTable.Core.SystemValidation
 {
-	[CreateAssetMenu(fileName = "ConnectionCompatibilityValidatorProvider", menuName = "AssemblyTable/LayoutValidatorProviders/ConnectionCompatibility")]
+	[CreateAssetMenu(fileName = "ConnectionCompatibilityValidatorProvider", menuName = "AssemblyTable/LayoutValidator/Providers/ConnectionCompatibility")]
 	public class ConnectionCompatibilityValidatorProvider : LayoutValidatorProviderSO
 	{
 		public override ILayoutValidator Provide()

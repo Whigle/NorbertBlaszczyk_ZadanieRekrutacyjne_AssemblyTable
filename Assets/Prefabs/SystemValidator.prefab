@@ -47,3 +47,4 @@ MonoBehaviour:
   providers:
   - {fileID: 11400000, guid: 46c31bd261851794eb777bce254d40b3, type: 2}
   - {fileID: 11400000, guid: 4b2d60555602dfa4d96ef0b650caa190, type: 2}
+  - {fileID: 11400000, guid: 0394ee2b906bb334db79ff47f06f59b3, type: 2}

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace AssemblyTable.Core.SystemValidation
 {
-	[CreateAssetMenu(fileName = "OutputsValidatorProvider", menuName = "AssemblyTable/LayoutValidatorProviders/Outputs")]
+	[CreateAssetMenu(fileName = "OutputsValidatorProvider", menuName = "AssemblyTable/LayoutValidator/Providers/Outputs")]
 	public class OutputsValidatorProvider : LayoutValidatorProviderSO
 	{
 		public override ILayoutValidator Provide()
