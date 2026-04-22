@@ -20,3 +20,13 @@ Scena:
 Po stworzeniu elementu na scenie możemy go przesunąć po obszarze stołu przytrzymując na obiekcie LPM i przesuwając myszą. 
 Na elemencie widoczne są sfery po lewej i prawej stronie. Zielone sfery po lewej to wejścia, czerwone po prawej to wyjścia. Pożna utworzyć połączenie między elementami klikając LPM na wyjście jednego elementu i klikając LPM na wejście innego elementu. Można przerwać tworzenie połączenia wciskąjąc PPM. Istniejące połączenie można również usunąć wciskając PPM na dowolny z połączonych portów. 
 
+Decyzje architektoniczne:
+Wykorzystałem addressable do zredukowania zapotrzebowania pamięci w runtime, dzięki czemu do pamięci są ładowanie jedynie elementy potrzebne przy aktualnym stanie systemu (aktualnie wpływ jest pomijalny, ale przy większej liczbie elementów, z ciężkimi modelami i teksturami będzie to miało znaczenie)
+Decelowo wszystkie zależności rozwiązywane w AssemblyTableBootstrapper, dzięki czemu zależności staną się jawne i łatwo weryfikowalne w jednym punkcie.
+
+Lista TODO:
+1. Poprawienie inputu: użycie NewInputManagera i podpięcie do eventów akcji zamiast sprawdzania wciśnięć myszy w update. Ponadto 
+2. Poprawienie zależności: Pozbycię się pozostałych Singletonów, łączenie zależności przez AssemblyTableBootstrapper
+3. Uporządkowanie Core, App, UI: Rozdzielenie klas z modułu core i przeniesienie klas których funkcjonalność łączy się ze sceną do modułu app, tak jak zostało to częściowo wykonane z SystemElementSpawner i klasami powiązanymi.
+4. Wersjonowanie serializacji: Dodanie saveFormatVersion i metod do konwertowania starszych wersji zapisu do nowszych po zmianie sposobu zapisu.
+5. Oparcie o Interfejsy z Core: większość klas połączonych jest sztywno, należy wprowadzić poprawki analogiczne do SystemElementSpawner. Klasy z sekcji App powinny korzystać z interfejsów zadeklarowanych w sekcji core (jak ISystemElementsSaveDataProvider, ILayoutStateProvider, ISystemElementSpawner), co pozwoli na ich połączenie z elementami sekcji UI nie znających App.
