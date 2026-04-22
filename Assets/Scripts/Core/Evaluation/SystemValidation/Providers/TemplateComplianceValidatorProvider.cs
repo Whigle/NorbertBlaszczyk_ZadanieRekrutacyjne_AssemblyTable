@@ -65,7 +65,7 @@ namespace AssemblyTable.Core.SystemValidation
 				var outputElementType = connectionStart.ElementType;
 				var inputElementType = connectionEnd.ElementType;
 
-				var validStarts = existingOutputPorts.FindAll(port => port.Parent.Data == outputElementType && port.IsConnected);
+				var validStarts = existingOutputPorts.FindAll(port => port.Parent.Data.Name == outputElementType.Name && port.IsConnected);
 
 				if (validStarts.Count == 0)
 				{
@@ -78,7 +78,7 @@ namespace AssemblyTable.Core.SystemValidation
 
 				foreach (var port in validStarts)
 				{
-					if (port.ConnectedPort.Parent.Data == inputElementType)
+					if (port.ConnectedPort.Parent.Data.Name == inputElementType.Name)
 					{
 						selectedPort = port;
 						break;
@@ -103,7 +103,7 @@ namespace AssemblyTable.Core.SystemValidation
 		{
 			for (int i = 0; i < templateSO.RequiredElements.Count; i++)
 			{
-				var element = existingElements.FirstOrDefault(element => element.Data == templateSO.RequiredElements[i].ElementType);
+				var element = existingElements.FirstOrDefault(element => element.Data.Name == templateSO.RequiredElements[i].ElementType.Name);
 
 				if (element == null)
 				{
