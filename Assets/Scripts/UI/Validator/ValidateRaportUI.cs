@@ -1,4 +1,5 @@
-using AssemblyTable.Core.SystemValidation;
+using AssemblyTable.Core.Evaluation;
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -11,11 +12,21 @@ namespace AssemblyTable.UI.SystemValidation
 		[SerializeField]
 		private TMP_Text raportText;
 
-		public void OnValidateBtnPressed()
+		private void Start()
 		{
-			string raport = "";
-			bool isValid = SystemValidator.Instance.ValidateSystem(out raport);
+			EvaluationModeController.Instance.OnValidationCompleted += OnValidationCompleted;
+		}
 
+		private void OnDestroy()
+		{
+			if (EvaluationModeController.Instance != null)
+			{
+				EvaluationModeController.Instance.OnValidationCompleted -= OnValidationCompleted;
+			}
+		}
+
+		public void OnValidationCompleted(bool isValid, string raport)
+		{
 			if (isValid)
 			{
 				raportText.text = "System is valid. Good Job.";

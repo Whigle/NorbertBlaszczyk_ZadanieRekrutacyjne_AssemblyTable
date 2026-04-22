@@ -1,4 +1,5 @@
 using AssemblyTable.Core.SystemElements;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -7,6 +8,8 @@ namespace AssemblyTable.Core.SystemValidation
 {
 	public class SystemValidator : SingletonMB<SystemValidator>
 	{
+		public event Action<bool, string> RaportGenerated;
+
 		[SerializeField]
 		private List<LayoutValidatorProviderSO> providers;
 
@@ -23,7 +26,7 @@ namespace AssemblyTable.Core.SystemValidation
 			}
 		}
 
-		public bool ValidateSystem(out string raport)
+		public void ValidateSystem()
 		{
 			LayoutState state = new LayoutState(SystemElementSpawner.Instance.SpawnedElements.Values);
 
@@ -40,12 +43,10 @@ namespace AssemblyTable.Core.SystemValidation
 				results.Enqueue(result);
 			}
 
-			raport = GenerateRaport(results); ;
-
-			return isValid;
+			GenerateRaport(isValid, results);
 		}
 
-		private string GenerateRaport(Queue<ValidationResult> results)
+		private void GenerateRaport(bool isValid, Queue<ValidationResult> results)
 		{
 			raportGenerator.Clear();
 
@@ -61,7 +62,9 @@ namespace AssemblyTable.Core.SystemValidation
 				raportGenerator.AppendLine(result.ToString());
 			}
 
-			return raportGenerator.ToString();
+			var raport = raportGenerator.ToString();
+
+			RaportGenerated?.Invoke(isValid, raport);
 		}
 	}
 }

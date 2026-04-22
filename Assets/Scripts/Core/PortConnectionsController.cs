@@ -12,6 +12,9 @@ namespace AssemblyTable.Core.Ports
 	{
 		//TODO: Better control over system state, if currently creating connections or not.
 
+		public event Action ConnectionCreated;
+		public event Action ConnectionRemoved;
+
 		private const string PORT_TAG = "Port";
 
 		[SerializeField]
@@ -54,7 +57,6 @@ namespace AssemblyTable.Core.Ports
 
 		public void CreateConnection(Port output, Port input)
 		{
-
 			var visual = SetupConnectionVisual(output, input);
 
 			ResetLineRenderer();
@@ -63,6 +65,8 @@ namespace AssemblyTable.Core.Ports
 			connections.Add(idCounter++, data);
 
 			data.Disconnected += OnDisconnected;
+
+			ConnectionCreated?.Invoke();
 		}
 
 		private void OnLMBPressed(RaycastHit hit)
@@ -135,6 +139,8 @@ namespace AssemblyTable.Core.Ports
 		private void OnDisconnected(int id)
 		{
 			connections.Remove(id);
+
+			ConnectionRemoved?.Invoke();
 		}
 
 		private void ResetLineRenderer()

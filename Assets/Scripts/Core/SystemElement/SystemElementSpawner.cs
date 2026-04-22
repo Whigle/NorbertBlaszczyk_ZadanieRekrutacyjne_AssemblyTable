@@ -12,6 +12,8 @@ namespace AssemblyTable.Core.SystemElements
 	public class SystemElementSpawner : SingletonMB<SystemElementSpawner>, ISerializable<ElementsSaveData>
 	{
 		public event Action SpawnableElementsPrepared;
+		public event Action SpawnedElement;
+		public event Action DestroyedElement;
 
 		[SerializeField]
 		private string systemElementDataLabel = "SEData";
@@ -73,12 +75,14 @@ namespace AssemblyTable.Core.SystemElements
 				newSystemElement.Destroyed += OnDestroyed;
 				spawnedElements.Add(id, newSystemElement);
 				idCounter++;
+				SpawnedElement?.Invoke();
 			}
 		}
 
 		private void OnDestroyed(int id)
 		{
 			spawnedElements.Remove(id);
+			DestroyedElement?.Invoke();
 		}
 
 		private void OnDrawGizmosSelected()
@@ -99,6 +103,8 @@ namespace AssemblyTable.Core.SystemElements
 				spawnedElements[id].Delete();
 				spawnedElements.Remove(id);
 			}
+
+			DestroyedElement?.Invoke();
 
 			idCounter = 0;
 		}
