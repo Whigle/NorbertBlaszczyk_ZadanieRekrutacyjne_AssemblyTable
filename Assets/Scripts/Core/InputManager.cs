@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class InputManager : SingletonMB<InputManager>
 {
-	//TODO: remove inspector references to InputManager and use Instance only
-
 	public event Action LMBPressed;
 	public event Action RMBPressed;
 

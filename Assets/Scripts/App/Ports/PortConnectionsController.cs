@@ -1,6 +1,5 @@
 using AssemblyTable.Core;
 using AssemblyTable.Core.Ports;
-using AssemblyTable.Core.SystemElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +10,6 @@ namespace AssemblyTable.App.Ports
 {
 	public class PortConnectionsController : MonoBehaviour, IRaycastListener, IConnectionsSaveDataProvider
 	{
-		//TODO: Better control over system state, if currently creating connections or not.
-
 		public event Action ConnectionCreated;
 		public event Action ConnectionRemoved;
 
@@ -41,11 +38,13 @@ namespace AssemblyTable.App.Ports
 
 		private ISystemElementSpawner systemElementSpawner;
 
-		public void Initialize(ISystemElementSpawner systemElementSpawner) {
+		public void Initialize(ISystemElementSpawner systemElementSpawner)
+		{
 			this.systemElementSpawner = systemElementSpawner;
 		}
 
-		public void Deinitialize() {
+		public void Deinitialize()
+		{
 			//
 		}
 
