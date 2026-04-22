@@ -1,10 +1,10 @@
-using AsemblyTable.Core.Ports;
-using AsemblyTable.Core.SystemElements;
+using AssemblyTable.Core.Ports;
+using AssemblyTable.Core.SystemElements;
 using System;
 using System.Linq;
 using UnityEngine;
 
-namespace AsemblyTable.Core.Ports
+namespace AssemblyTable.Core.Ports
 {
 	public class Port : MonoBehaviour
 	{

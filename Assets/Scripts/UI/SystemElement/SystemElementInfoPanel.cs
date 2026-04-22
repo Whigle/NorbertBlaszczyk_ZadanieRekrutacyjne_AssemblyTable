@@ -1,8 +1,8 @@
-using AsemblyTable.Core.Ports.UI;
+using AssemblyTable.Core.Ports.UI;
 using TMPro;
 using UnityEngine;
 
-namespace AsemblyTable.Core.SystemElements.UI
+namespace AssemblyTable.Core.SystemElements.UI
 {
 	public class SystemElementInfoPanel : MonoBehaviour
 	{

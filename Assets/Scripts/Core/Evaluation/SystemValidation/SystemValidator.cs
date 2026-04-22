@@ -1,0 +1,64 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using UnityEngine;
+
+namespace AssemblyTable.Core.SystemValidation
+{
+	public class SystemValidator : MonoBehaviour
+	{
+		public event Action<bool, string> RaportGenerated;
+
+		[SerializeField]
+		private List<LayoutValidatorProviderSO> providers;
+
+		private List<ILayoutValidator> validators = new List<ILayoutValidator>();
+		private StringBuilder raportGenerator = new StringBuilder();
+		protected void Awake()
+		{
+			foreach (var provider in providers)
+			{
+				validators.Add(provider.Provide());
+			}
+		}
+
+		public void ValidateSystem(LayoutState state)
+		{
+			Queue<ValidationResult> results = new Queue<ValidationResult>();
+
+			bool isValid = true;
+
+			foreach (ILayoutValidator validator in validators)
+			{
+				var result = validator.Validate(state);
+
+				isValid = result.IsValid && isValid;
+
+				results.Enqueue(result);
+			}
+
+			GenerateRaport(isValid, results);
+		}
+
+		private void GenerateRaport(bool isValid, Queue<ValidationResult> results)
+		{
+			raportGenerator.Clear();
+
+			while (results.Count > 0)
+			{
+				var result = results.Dequeue();
+
+				if (result.IsValid)
+				{
+					continue;
+				}
+
+				raportGenerator.AppendLine(result.ToString());
+			}
+
+			var raport = raportGenerator.ToString();
+
+			RaportGenerated?.Invoke(isValid, raport);
+		}
+	}
+}

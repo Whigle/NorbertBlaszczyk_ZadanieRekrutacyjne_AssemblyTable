@@ -1,32 +1,50 @@
+using AssemblyTable.Core.Evaluation;
 using TMPro;
 using UnityEngine;
 
-public class ValidateRaportUI : MonoBehaviour
+namespace AssemblyTable.UI.SystemValidation
 {
-	[SerializeField]
-	private GameObject raportPanel;
-	[SerializeField]
-	private TMP_Text raportText;
-
-	public void OnValidateBtnPressed()
+	public class ValidateRaportUI : MonoBehaviour
 	{
-		string raport = "";
-		bool isValid = SystemValidator.Instance.ValidateSystem(out raport);
+		[SerializeField]
+		private GameObject raportPanel;
+		[SerializeField]
+		private TMP_Text raportText;
 
-		if (isValid)
+		private EvaluationModeController evaluationModeController;
+
+		public void Initialize(EvaluationModeController evaluationModeController)
 		{
-			raportText.text = "System is valid. Good Job.";
-		}
-		else
-		{
-			raportText.text = raport;
+			this.evaluationModeController = evaluationModeController;
+
+			evaluationModeController.OnValidationCompleted += OnValidationCompleted;
 		}
 
-		raportPanel.SetActive(true);
-	}
+		public void Deinitialize()
+		{
+			if (evaluationModeController != null)
+			{
+				evaluationModeController.OnValidationCompleted -= OnValidationCompleted;
+			}
+		}
 
-	public void OnCloseBtnPressed()
-	{
-		raportPanel.SetActive(false);
+		public void OnValidationCompleted(bool isValid, string raport)
+		{
+			if (isValid)
+			{
+				raportText.text = "System is valid. Good Job.";
+			}
+			else
+			{
+				raportText.text = raport;
+			}
+
+			raportPanel.SetActive(true);
+		}
+
+		public void OnCloseBtnPressed()
+		{
+			raportPanel.SetActive(false);
+		}
 	}
 }

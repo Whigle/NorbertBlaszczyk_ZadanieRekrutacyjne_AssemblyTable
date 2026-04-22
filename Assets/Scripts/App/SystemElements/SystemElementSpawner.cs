@@ -1,4 +1,6 @@
-using AsemblyTable.Core.Serialization;
+using AssemblyTable.Core;
+using AssemblyTable.Core.SystemElements;
+using AssemblyTable.Core.SystemValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +9,13 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace AsemblyTable.Core.SystemElements
+namespace AssemblyTable.App.SystemElements
 {
-	public class SystemElementSpawner : SingletonMB<SystemElementSpawner>, ISerializable<ElementsSaveData>
+	public class SystemElementSpawner : MonoBehaviour, ISystemElementsSaveDataProvider, ILayoutStateProvider, ISystemElementSpawner
 	{
 		public event Action SpawnableElementsPrepared;
+		public event Action SpawnedElement;
+		public event Action DestroyedElement;
 
 		[SerializeField]
 		private string systemElementDataLabel = "SEData";
@@ -26,10 +30,8 @@ namespace AsemblyTable.Core.SystemElements
 		public IReadOnlyDictionary<int, SystemElement> SpawnedElements => spawnedElements;
 		public IReadOnlyList<SystemElementSO> SpawnableElements => spawnableElements.Values.ToList();
 
-		protected override void Awake()
+		protected void Awake()
 		{
-			base.Awake();
-
 			Addressables.LoadAssetsAsync<SystemElementSO>(systemElementDataLabel, addressable =>
 			{
 				if (addressable != null)
@@ -73,12 +75,14 @@ namespace AsemblyTable.Core.SystemElements
 				newSystemElement.Destroyed += OnDestroyed;
 				spawnedElements.Add(id, newSystemElement);
 				idCounter++;
+				SpawnedElement?.Invoke();
 			}
 		}
 
 		private void OnDestroyed(int id)
 		{
 			spawnedElements.Remove(id);
+			DestroyedElement?.Invoke();
 		}
 
 		private void OnDrawGizmosSelected()
@@ -99,6 +103,8 @@ namespace AsemblyTable.Core.SystemElements
 				spawnedElements[id].Delete();
 				spawnedElements.Remove(id);
 			}
+
+			DestroyedElement?.Invoke();
 
 			idCounter = 0;
 		}
@@ -129,20 +135,10 @@ namespace AsemblyTable.Core.SystemElements
 				await SpawnSystemElement(element.DataId, element.InstanceId, element.Position);
 			}
 		}
-	}
 
-	[Serializable]
-	public struct ElementsSaveData
-	{
-		public List<ElementSaveData> Elements;
-	}
-
-
-	[Serializable]
-	public struct ElementSaveData
-	{
-		public int InstanceId;
-		public int DataId;
-		public Vector3Serializable Position;
+		public LayoutState Provide()
+		{
+			return new LayoutState(spawnedElements.Values);
+		}
 	}
 }

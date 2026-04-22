@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fbd2e9b48baca246b87e4d4c6402e50, type: 3}
+  m_Name: TestLayout
+  m_EditorClassIdentifier: 
+  requiredElements:
+  - ElementNodeId: RawA
+    ElementType: {fileID: 11400000, guid: a350491c546e87c418a18ce991f5c94e, type: 2}
+  - ElementNodeId: RawB
+    ElementType: {fileID: 11400000, guid: 2b8a0b2f14abf3249bf1d4860f8a837e, type: 2}
+  - ElementNodeId: Filt
+    ElementType: {fileID: 11400000, guid: b69d574bf150d7042bba3a46956c9a3e, type: 2}
+  - ElementNodeId: Mix
+    ElementType: {fileID: 11400000, guid: 75c02616b4c077343944e253f23a6d15, type: 2}
+  - ElementNodeId: Heat
+    ElementType: {fileID: 11400000, guid: 03e5986c166ddf3419517fd1de3fb15e, type: 2}
+  - ElementNodeId: Pack
+    ElementType: {fileID: 11400000, guid: 58ac851aaab12e8439a940e683f597d9, type: 2}
+  requiredConnections:
+  - FromNodeId: RawA
+    ToNodeId: Filt
+  - FromNodeId: Filt
+    ToNodeId: Mix
+  - FromNodeId: Mix
+    ToNodeId: Heat
+  - FromNodeId: Heat
+    ToNodeId: Pack
+  - FromNodeId: RawB
+    ToNodeId: Mix

@@ -1,18 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
+using AssemblyTable.Core.Evaluation;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class ValidateBtn : MonoBehaviour
+namespace AssemblyTable.UI.SystemValidation
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	[RequireComponent(typeof(Button))]
+	public class ValidateBtn : MonoBehaviour
+	{
+		private Button button;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+		private EvaluationModeController evaluationModeController;
+
+		public void Initialize(EvaluationModeController evaluationModeController)
+		{
+			this.evaluationModeController = evaluationModeController;
+
+			button = GetComponent<Button>();
+			evaluationModeController.EvaluationModeChanged += OnEvaluationModeChanged;
+			OnEvaluationModeChanged(evaluationModeController.CurrentMode);
+		}
+
+		private void Deinitialize()
+		{
+			if (evaluationModeController != null)
+			{
+				evaluationModeController.EvaluationModeChanged -= OnEvaluationModeChanged;
+			}
+		}
+
+		private void OnEvaluationModeChanged(EvaluationMode mode)
+		{
+			button.interactable = mode == EvaluationMode.Test;
+		}
+
+		public void OnValidateBtnPressed()
+		{
+			if (evaluationModeController.CurrentMode == EvaluationMode.Test)
+			{
+				evaluationModeController.Evaluate();
+			}
+		}
+	}
 }

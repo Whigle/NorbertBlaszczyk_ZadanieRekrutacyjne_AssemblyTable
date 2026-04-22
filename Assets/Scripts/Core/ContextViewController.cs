@@ -1,4 +1,4 @@
-using AsemblyTable.Core.SystemElements;
+using AssemblyTable.Core.SystemElements;
 using System;
 using UnityEngine;
 

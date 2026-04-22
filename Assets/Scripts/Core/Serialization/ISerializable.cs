@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace AsemblyTable.Core.Serialization
+namespace AssemblyTable.Core.Serialization
 {
 	public interface ISerializable<T>
 	{

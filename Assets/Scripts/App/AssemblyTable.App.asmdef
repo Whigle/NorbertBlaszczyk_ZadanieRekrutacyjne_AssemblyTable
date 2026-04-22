@@ -1,0 +1,19 @@
+{
+    "name": "AssemblyTable.App",
+    "rootNamespace": "AssemblyTable.App",
+    "references": [
+        "GUID:c61c64a0be64cb04ba08e5279ca44a51",
+        "GUID:9e24947de15b9834991c9d8411ea37cf",
+        "GUID:84651a3751eca9349aac36a66bba901b",
+        "GUID:b21e2f44924ccaf4eb8c8f6f772e8143"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-namespace AsemblyTable.Core.SystemElements.UI {
+namespace AssemblyTable.Core.SystemElements.UI
+{
 	public class LibraryUI : MonoBehaviour
 	{
 		[SerializeField]
@@ -15,21 +16,29 @@ namespace AsemblyTable.Core.SystemElements.UI {
 
 		private List<SystemElementBtn> buttons = new List<SystemElementBtn>();
 
-		private void Start()
+		private ISystemElementSpawner systemElementSpawner;
+
+		public void Initialize(ISystemElementSpawner systemElementSpawner)
 		{
+			this.systemElementSpawner = systemElementSpawner;
 			SetCategoryDropdown();
 
-			SystemElementSpawner.Instance.SpawnableElementsPrepared += OnSpawnableElementsPrepared;
+			systemElementSpawner.SpawnableElementsPrepared += OnSpawnableElementsPrepared;
+		}
+
+		public void Deinitialize()
+		{
+			//
 		}
 
 		private void OnSpawnableElementsPrepared()
 		{
-			SystemElementSpawner.Instance.SpawnableElementsPrepared -= OnSpawnableElementsPrepared;
+			systemElementSpawner.SpawnableElementsPrepared -= OnSpawnableElementsPrepared;
 
-			foreach (var data in SystemElementSpawner.Instance.SpawnableElements)
+			foreach (var data in systemElementSpawner.SpawnableElements)
 			{
 				var button = Instantiate(systemElementBtnPrefab, scrollViewContent);
-				button.Init(data.Id, data.Name, data.Category);
+				button.Init(data.Id, data.Name, data.Category, SpawnSystemElement);
 				buttons.Add(button);
 			}
 		}
@@ -65,6 +74,10 @@ namespace AsemblyTable.Core.SystemElements.UI {
 			{
 				button.SetVibility(selectedCategory);
 			}
+		}
+
+		private void SpawnSystemElement(int dataId) {
+			_ = systemElementSpawner.SpawnSystemElement(dataId);
 		}
 	}
 }

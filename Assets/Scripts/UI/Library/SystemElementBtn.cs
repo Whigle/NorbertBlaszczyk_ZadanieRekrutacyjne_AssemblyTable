@@ -1,7 +1,8 @@
+using System;
 using TMPro;
 using UnityEngine;
 
-namespace AsemblyTable.Core.SystemElements.UI
+namespace AssemblyTable.Core.SystemElements.UI
 {
 	public class SystemElementBtn : MonoBehaviour
 	{
@@ -13,12 +14,14 @@ namespace AsemblyTable.Core.SystemElements.UI
 		private int dataId;
 		private string elementName;
 		private Category category;
+		private Action<int> onClick;
 
-		public void Init(int dataId, string name, Category category)
+		public void Init(int dataId, string name, Category category, Action<int> onClick)
 		{
 			this.dataId = dataId;
 			this.elementName = name;
 			this.category = category;
+			this.onClick = onClick;
 			SetupButton();
 		}
 
@@ -35,7 +38,7 @@ namespace AsemblyTable.Core.SystemElements.UI
 
 		public void OnClick()
 		{
-			_ = SystemElementSpawner.Instance.SpawnSystemElement(dataId);
+			onClick?.Invoke(dataId);
 		}
 	}
 }
