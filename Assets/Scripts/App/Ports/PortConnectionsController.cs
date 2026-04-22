@@ -1,4 +1,5 @@
-using AssemblyTable.Core.Serialization;
+using AssemblyTable.Core;
+using AssemblyTable.Core.Ports;
 using AssemblyTable.Core.SystemElements;
 using System;
 using System.Collections.Generic;
@@ -6,9 +7,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace AssemblyTable.Core.Ports
+namespace AssemblyTable.App.Ports
 {
-	public class PortConnectionsController : SingletonMB<PortConnectionsController>, IRaycastListener, ISerializable<ConnectionsSaveData>
+	public class PortConnectionsController : MonoBehaviour, IRaycastListener, IConnectionsSaveDataProvider
 	{
 		//TODO: Better control over system state, if currently creating connections or not.
 
@@ -37,6 +38,16 @@ namespace AssemblyTable.Core.Ports
 
 		private int idCounter = 0;
 		public IReadOnlyList<ConnectionData> Connections => connections.Values.ToList();
+
+		private ISystemElementSpawner systemElementSpawner;
+
+		public void Initialize(ISystemElementSpawner systemElementSpawner) {
+			this.systemElementSpawner = systemElementSpawner;
+		}
+
+		public void Deinitialize() {
+			//
+		}
 
 		private void Start()
 		{
@@ -112,7 +123,7 @@ namespace AssemblyTable.Core.Ports
 		{
 			manipulatedObject = hit.collider.gameObject.GetComponent<Port>();
 
-			if (manipulatedObject.Data.Type == Type.Input)
+			if (manipulatedObject.Data.Type == Core.Ports.Type.Input)
 			{
 				manipulatedObject = null;
 				return;
@@ -126,7 +137,7 @@ namespace AssemblyTable.Core.Ports
 		{
 			Port otherPort = hit.collider.GetComponent<Port>();
 
-			if (otherPort.Data.Type == Type.Output)
+			if (otherPort.Data.Type == Core.Ports.Type.Output)
 			{
 				return;
 			}
@@ -180,14 +191,14 @@ namespace AssemblyTable.Core.Ports
 		{
 			ConnectionsSaveData saveData = new ConnectionsSaveData() { Connections = new List<ConnectionSaveData>() };
 
-			foreach (var connection in PortConnectionsController.Instance.Connections)
+			foreach (var connection in connections)
 			{
 				saveData.Connections.Add(new ConnectionSaveData()
 				{
-					OutputElementId = connection.OutputPort.Parent.Id,
-					OutputPortId = connection.OutputPort.Id,
-					InputElementId = connection.InputPort.Parent.Id,
-					InputPortId = connection.InputPort.Id,
+					OutputElementId = connection.Value.OutputPort.Parent.Id,
+					OutputPortId = connection.Value.OutputPort.Id,
+					InputElementId = connection.Value.InputPort.Parent.Id,
+					InputPortId = connection.Value.InputPort.Id,
 				});
 			}
 
@@ -198,60 +209,13 @@ namespace AssemblyTable.Core.Ports
 		{
 			foreach (var connection in saveData.Connections)
 			{
-				var outputPort = SystemElementSpawner.Instance.SpawnedElements[connection.OutputElementId].Ports[connection.OutputPortId];
-				var inputPort = SystemElementSpawner.Instance.SpawnedElements[connection.InputElementId].Ports[connection.InputPortId];
+				var outputPort = systemElementSpawner.SpawnedElements[connection.OutputElementId].Ports[connection.OutputPortId];
+				var inputPort = systemElementSpawner.SpawnedElements[connection.InputElementId].Ports[connection.InputPortId];
 				CreateConnection(outputPort, inputPort);
 			}
 
 			await Task.CompletedTask;
 		}
-	}
-
-	public class ConnectionData
-	{
-		public event Action<int> Disconnected;
-
-		public int Id;
-		public Port OutputPort;
-		public Port InputPort;
-		public PortsConnectionVisuals Visuals;
-
-		public ConnectionData(int Id, Port outputPort, Port inputPort, PortsConnectionVisuals visuals)
-		{
-			OutputPort = outputPort;
-			InputPort = inputPort;
-			Visuals = visuals;
-
-			OutputPort.Disconnected += OnDisconnected;
-			InputPort.Disconnected += OnDisconnected;
-		}
-
-		private void OnDisconnected(Port port)
-		{
-			OutputPort.Disconnected -= OnDisconnected;
-			InputPort.Disconnected -= OnDisconnected;
-
-			(port == OutputPort ? InputPort : OutputPort).Disconnect();
-
-			Visuals.Disconnect();
-			Disconnected?.Invoke(Id);
-		}
-	}
-
-	[Serializable]
-	public struct ConnectionsSaveData
-	{
-		public List<ConnectionSaveData> Connections;
-	}
-
-
-	[Serializable]
-	public struct ConnectionSaveData
-	{
-		public int OutputElementId;
-		public int OutputPortId;
-		public int InputElementId;
-		public int InputPortId;
 	}
 }
 

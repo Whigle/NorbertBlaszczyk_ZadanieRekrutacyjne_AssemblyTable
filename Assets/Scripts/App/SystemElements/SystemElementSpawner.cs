@@ -1,4 +1,6 @@
-using AssemblyTable.Core.Serialization;
+using AssemblyTable.Core;
+using AssemblyTable.Core.SystemElements;
+using AssemblyTable.Core.SystemValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +9,9 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace AssemblyTable.Core.SystemElements
+namespace AssemblyTable.App.SystemElements
 {
-	public class SystemElementSpawner : SingletonMB<SystemElementSpawner>, ISerializable<ElementsSaveData>
+	public class SystemElementSpawner : MonoBehaviour, ISystemElementsSaveDataProvider, ILayoutStateProvider, ISystemElementSpawner
 	{
 		public event Action SpawnableElementsPrepared;
 		public event Action SpawnedElement;
@@ -28,10 +30,8 @@ namespace AssemblyTable.Core.SystemElements
 		public IReadOnlyDictionary<int, SystemElement> SpawnedElements => spawnedElements;
 		public IReadOnlyList<SystemElementSO> SpawnableElements => spawnableElements.Values.ToList();
 
-		protected override void Awake()
+		protected void Awake()
 		{
-			base.Awake();
-
 			Addressables.LoadAssetsAsync<SystemElementSO>(systemElementDataLabel, addressable =>
 			{
 				if (addressable != null)
@@ -135,20 +135,10 @@ namespace AssemblyTable.Core.SystemElements
 				await SpawnSystemElement(element.DataId, element.InstanceId, element.Position);
 			}
 		}
-	}
 
-	[Serializable]
-	public struct ElementsSaveData
-	{
-		public List<ElementSaveData> Elements;
-	}
-
-
-	[Serializable]
-	public struct ElementSaveData
-	{
-		public int InstanceId;
-		public int DataId;
-		public Vector3Serializable Position;
+		public LayoutState Provide()
+		{
+			return new LayoutState(spawnedElements.Values);
+		}
 	}
 }

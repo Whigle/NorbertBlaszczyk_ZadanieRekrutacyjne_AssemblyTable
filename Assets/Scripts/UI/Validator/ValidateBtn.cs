@@ -9,18 +9,22 @@ namespace AssemblyTable.UI.SystemValidation
 	{
 		private Button button;
 
-		private void Start()
+		private EvaluationModeController evaluationModeController;
+
+		public void Initialize(EvaluationModeController evaluationModeController)
 		{
+			this.evaluationModeController = evaluationModeController;
+
 			button = GetComponent<Button>();
-			EvaluationModeController.Instance.EvaluationModeChanged += OnEvaluationModeChanged;
-			OnEvaluationModeChanged(EvaluationModeController.Instance.CurrentMode);
+			evaluationModeController.EvaluationModeChanged += OnEvaluationModeChanged;
+			OnEvaluationModeChanged(evaluationModeController.CurrentMode);
 		}
 
-		private void OnDestroy()
+		private void Deinitialize()
 		{
-			if (EvaluationModeController.Instance != null)
+			if (evaluationModeController != null)
 			{
-				EvaluationModeController.Instance.EvaluationModeChanged -= OnEvaluationModeChanged;
+				evaluationModeController.EvaluationModeChanged -= OnEvaluationModeChanged;
 			}
 		}
 
@@ -31,9 +35,9 @@ namespace AssemblyTable.UI.SystemValidation
 
 		public void OnValidateBtnPressed()
 		{
-			if (EvaluationModeController.Instance.CurrentMode == EvaluationMode.Test)
+			if (evaluationModeController.CurrentMode == EvaluationMode.Test)
 			{
-				EvaluationModeController.Instance.Evaluate();
+				evaluationModeController.Evaluate();
 			}
 		}
 	}

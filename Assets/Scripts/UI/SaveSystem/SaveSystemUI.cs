@@ -1,19 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace AssemblyTable.Core.Serialization.UI
 {
 	public class SaveSystemUI : MonoBehaviour
 	{
+		private SystemSerializer systemSerializer;
+
+		public void Initialize(SystemSerializer systemSerializer)
+		{
+			this.systemSerializer = systemSerializer;
+		}
+
+		public void Deinitialize()
+		{
+			//
+		}
+
 		public void SaveBtnPressec()
 		{
-			SystemSerializer.Instance.SaveSystem();
+			systemSerializer.SaveSystem();
 		}
 
 		public void LoadBtnPressed()
 		{
-			SystemSerializer.Instance.LoadSystem();
+			systemSerializer.LoadSystem();
 		}
 	}
 }

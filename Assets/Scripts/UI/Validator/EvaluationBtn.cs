@@ -9,20 +9,28 @@ namespace AssemblyTable.UI.Evaluation
 		[SerializeField]
 		private TMP_Text buttonText;
 
-		private void Start()
+		private EvaluationModeController evaluationModeController;
+
+		public void Initialize(EvaluationModeController evaluationModeController)
 		{
+			this.evaluationModeController = evaluationModeController;
 			SetText();
+		}
+
+		public void Deinitialize()
+		{
+			//
 		}
 
 		public void OnEvaluationBtnPressed()
 		{
-			EvaluationModeController.Instance.SwitchEvaluationMode();
+			evaluationModeController.SwitchEvaluationMode();
 			SetText();
 		}
 
 		public void SetText()
 		{
-			buttonText.text = $"Switch to:{EvaluationModeController.Instance.GetNextEvaluationMode()}";
+			buttonText.text = $"Switch to:{evaluationModeController.GetNextEvaluationMode()}";
 		}
 	}
 }

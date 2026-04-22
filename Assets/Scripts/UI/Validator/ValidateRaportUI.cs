@@ -1,5 +1,4 @@
 using AssemblyTable.Core.Evaluation;
-using System;
 using TMPro;
 using UnityEngine;
 
@@ -12,16 +11,20 @@ namespace AssemblyTable.UI.SystemValidation
 		[SerializeField]
 		private TMP_Text raportText;
 
-		private void Start()
+		private EvaluationModeController evaluationModeController;
+
+		public void Initialize(EvaluationModeController evaluationModeController)
 		{
-			EvaluationModeController.Instance.OnValidationCompleted += OnValidationCompleted;
+			this.evaluationModeController = evaluationModeController;
+
+			evaluationModeController.OnValidationCompleted += OnValidationCompleted;
 		}
 
-		private void OnDestroy()
+		public void Deinitialize()
 		{
-			if (EvaluationModeController.Instance != null)
+			if (evaluationModeController != null)
 			{
-				EvaluationModeController.Instance.OnValidationCompleted -= OnValidationCompleted;
+				evaluationModeController.OnValidationCompleted -= OnValidationCompleted;
 			}
 		}
 

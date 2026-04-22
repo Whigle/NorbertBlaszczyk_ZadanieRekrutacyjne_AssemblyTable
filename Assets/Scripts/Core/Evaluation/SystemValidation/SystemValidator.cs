@@ -1,4 +1,3 @@
-using AssemblyTable.Core.SystemElements;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,7 +5,7 @@ using UnityEngine;
 
 namespace AssemblyTable.Core.SystemValidation
 {
-	public class SystemValidator : SingletonMB<SystemValidator>
+	public class SystemValidator : MonoBehaviour
 	{
 		public event Action<bool, string> RaportGenerated;
 
@@ -15,21 +14,16 @@ namespace AssemblyTable.Core.SystemValidation
 
 		private List<ILayoutValidator> validators = new List<ILayoutValidator>();
 		private StringBuilder raportGenerator = new StringBuilder();
-
-		protected override void Awake()
+		protected void Awake()
 		{
-			base.Awake();
-
 			foreach (var provider in providers)
 			{
 				validators.Add(provider.Provide());
 			}
 		}
 
-		public void ValidateSystem()
+		public void ValidateSystem(LayoutState state)
 		{
-			LayoutState state = new LayoutState(SystemElementSpawner.Instance.SpawnedElements.Values);
-
 			Queue<ValidationResult> results = new Queue<ValidationResult>();
 
 			bool isValid = true;

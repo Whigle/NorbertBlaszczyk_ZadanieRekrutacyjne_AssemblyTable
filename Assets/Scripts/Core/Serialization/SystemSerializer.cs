@@ -1,28 +1,38 @@
-using AssemblyTable.Core.Ports;
-using AssemblyTable.Core.SystemElements;
-using System;
 using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
 
 namespace AssemblyTable.Core.Serialization
 {
-	public class SystemSerializer : SingletonMB<SystemSerializer>
+	public class SystemSerializer : MonoBehaviour
 	{
 		private string savePath = "";
 
-		protected override void Awake()
+		private ISystemElementsSaveDataProvider systemElementsSaveDataProvider;
+		private IConnectionsSaveDataProvider connectionsSaveDataProvider;
+
+		protected void Awake()
 		{
-			base.Awake();
 			savePath = Path.Combine(Application.persistentDataPath, "SystemSaveData.json");
+		}
+
+		public void Initialize(ISystemElementsSaveDataProvider systemElementsSaveDataProvider, IConnectionsSaveDataProvider connectionsSaveDataProvider)
+		{
+			this.systemElementsSaveDataProvider = systemElementsSaveDataProvider;
+			this.connectionsSaveDataProvider = connectionsSaveDataProvider;
+		}
+
+		public void Deinitialize()
+		{
+			//
 		}
 
 		public void SaveSystem()
 		{
 			SystemSaveData saveData = new SystemSaveData();
 
-			saveData.elementsSaveData = SystemElementSpawner.Instance.Serialize();
-			saveData.connectionsSaveData = PortConnectionsController.Instance.Serialize();
+			saveData.elementsSaveData = systemElementsSaveDataProvider.Serialize();
+			saveData.connectionsSaveData = connectionsSaveDataProvider.Serialize();
 
 			string json = JsonUtility.ToJson(saveData, true);
 			File.WriteAllText(savePath, json);
@@ -43,37 +53,8 @@ namespace AssemblyTable.Core.Serialization
 
 		public async Task LoadSystem(SystemSaveData saveData)
 		{
-			await SystemElementSpawner.Instance.Deserialize(saveData.elementsSaveData);
-			await PortConnectionsController.Instance.Deserialize(saveData.connectionsSaveData);
+			await systemElementsSaveDataProvider.Deserialize(saveData.elementsSaveData);
+			await connectionsSaveDataProvider.Deserialize(saveData.connectionsSaveData);
 		}
-	}
-
-	[Serializable]
-	public struct SystemSaveData
-	{
-		public ElementsSaveData elementsSaveData;
-		public ConnectionsSaveData connectionsSaveData;
-	}
-
-	[Serializable]
-	public struct Vector3Serializable
-	{
-		public float x, y, z;
-
-		public Vector3Serializable(float x, float y, float z)
-		{
-			this.x = x;
-			this.y = y;
-			this.z = z;
-		}
-
-		public static implicit operator Vector3(Vector3Serializable v)
-			=> new Vector3(v.x, v.y, v.z);
-
-		public static implicit operator Vector3Serializable(Vector3 v)
-			=> new Vector3Serializable(v.x, v.y, v.z);
-
-		public override string ToString()
-			=> $"[{x:F1}, {y:F1}, {z:F1}]";
 	}
 }

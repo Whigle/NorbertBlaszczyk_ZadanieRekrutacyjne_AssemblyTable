@@ -1,32 +1,34 @@
 using AssemblyTable.Core.SystemValidation;
 using System;
+using UnityEngine;
 
 namespace AssemblyTable.Core.Evaluation
 {
-	public class EvaluationModeController : SingletonMB<EvaluationModeController>
+	public class EvaluationModeController
 	{
 		public event Action<EvaluationMode> EvaluationModeChanged;
 		public event Action<bool, string> OnValidationCompleted;
 
 		public EvaluationMode CurrentMode { get; private set; } = EvaluationMode.Learning;
 
-		protected override void Awake()
-		{
-			base.Awake();
-		}
+		private ILayoutStateProvider layoutStateProvider;
+		private SystemValidator systemValidator;
 
-		private void Start()
+		public EvaluationModeController(SystemValidator systemValidator, ILayoutStateProvider layoutStateProvider)
 		{
+			this.systemValidator = systemValidator;
+			this.layoutStateProvider = layoutStateProvider;
+
 			ChangeEvaluationMode(CurrentMode);
 
-			SystemValidator.Instance.RaportGenerated += OnRaportGenerated;
+			systemValidator.RaportGenerated += OnRaportGenerated;
 		}
 
-		protected override void OnDestroy()
+		~EvaluationModeController()
 		{
-			if (SystemValidator.Instance)
+			if (systemValidator != null)
 			{
-				SystemValidator.Instance.RaportGenerated -= OnRaportGenerated;
+				systemValidator.RaportGenerated -= OnRaportGenerated;
 			}
 		}
 
@@ -37,7 +39,15 @@ namespace AssemblyTable.Core.Evaluation
 
 		public void Evaluate()
 		{
-			SystemValidator.Instance.ValidateSystem();
+			if (layoutStateProvider == null)
+			{
+				Debug.LogError("LayoutStateProvider is null.");
+				return;
+			}
+
+			var state = layoutStateProvider.Provide();
+
+			systemValidator.ValidateSystem(state);
 		}
 
 		public void SwitchEvaluationMode()
